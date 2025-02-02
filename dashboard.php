@@ -8,27 +8,104 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE-edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="dashboardCSS.css">
-</head>
-<body>
-<div class="sidebar">
-        <div class="logo">
-            <h1>LIBTRACK</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Add Book</a></li>
-                <li><a href="#">Settings</a></li>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+
+        <link rel="stylesheet" href="dashboardCSS.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+
+        <title>Admin Dashboard</title>
+    </head>
+    <body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="logo.png" alt="logo">
+                </span>
+
+                <div class="text header-text">
+                <span class="name">LibTrack</span>
+                <span class="profession">PHINMA</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle'></i>
+
+        </header>
+
+        <div class ="menu-bar">
+            <div class="menu">
+                
+            <ul class="menu-links">
+                
+                <li class="nav-link">
+                    <a href="#">
+                        <i class='bx bx-home-alt icon' ></i>
+                        <span class="text nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">
+                    <i class='bx bx-book icon' ></i>
+                        <span class="text nav-text">Add book</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">
+                    <i class='bx bx-user icon' ></i>
+                        <span class="text nav-text">Students</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">
+                        <i class='bx bx-bell icon' ></i>
+                        <span class="text nav-text">Tracking</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">
+                    <i class='bx bx-cog icon' ></i>
+                        <span class="text nav-text">Settings</span>
+                    </a>
+                </li>
             </ul>
-        </nav>
-    </div>
-    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-    <a href="logout.php">Logout</a>
-</body>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="logout.php">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+                <li class="mode">
+                    <div class="moon-sun">
+                        <i class='bx bx-moon icon moon'></i>
+                        <i class='bx bx-sun icon sun'></i>
+                    </div>
+                    <span class="mode-text text">Dark Mode</span>
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                    
+                </li>
+            </div>
+        </div>
+    </nav>
+        <section class="home">
+        <div class="home-content">
+            <div class="text">Welcome to LibTrack</div>
+            <div class="text">Admin Dashboard</div>
+        </section>
+
+
+        <script src="script.js"> </script>
+    
+    </body>
 </html>
