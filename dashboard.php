@@ -15,7 +15,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
         
         
 
-        <link rel="stylesheet" href="dashboardCSS.css">
+        <link rel="stylesheet" href="dashboard.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 
@@ -100,8 +100,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
     </nav>
         <section class="home">
         <div class="home-content">
-            <div class="text">Welcome to LibTrack</div>
-            <div class="text">Admin Dashboard</div>
+            <div class="text">DASHBOARD</div>
         </section>
 
         <section id="addbook" class="home">
