@@ -27,17 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
     <div class="login-container">
-        <h2>Admin Login</h2>
+        <h3>Admin Login</h3>
         <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
         <form method="POST" action="">
             <div class="form-group">
@@ -47,8 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
+                <
             </div>
-            <button type="submit" class="btn">Login</button>
+            <button type="submit" class="btn">Sign In</button>
         </form>
     </div>
 </body>

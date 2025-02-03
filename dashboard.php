@@ -26,7 +26,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="logo.png" alt="logo">
+                    <img src="logo_lib.png" alt="logo">
                 </span>
 
                 <div class="text header-text">
@@ -51,7 +51,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
                     </a>
                 </li>
                 <li class="nav-link">
-                    <a href="#">
+                    <a href="#addbook">
                     <i class='bx bx-book icon' ></i>
                         <span class="text nav-text">Add book</span>
                     </a>
@@ -102,6 +102,11 @@ if (!isset($_SESSION['admin_logged_in'])) {
         <div class="home-content">
             <div class="text">Welcome to LibTrack</div>
             <div class="text">Admin Dashboard</div>
+        </section>
+
+        <section id="addbook" class="home">
+        <div class="home-content">
+            <?php include 'addbook.php'; ?>
         </section>
 
 
