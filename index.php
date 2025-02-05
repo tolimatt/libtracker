@@ -35,21 +35,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="login-container">
         <h3>Admin Login</h3>
-        <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
+        
+        
         <form method="POST" action="">
             <div class="form-group">
+                <label class="instruction">Please fill in your unique admin login details below</label><br>
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
-                <
+                <a href="forgot_password.php">Forgot password?</a>
+                <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
             </div>
             <button type="submit" class="btn">Sign In</button>
         </form>

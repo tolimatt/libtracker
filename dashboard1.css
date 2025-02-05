@@ -291,3 +291,29 @@ body.dark .switch::before{
     left: 88px;
     width: calc(100% - 88px);
 }
+
+.home-addbook{
+    position: relative;
+    left: 250px;
+    height: 100vh;
+    width: calc(100% - 250px);
+    background: url(logo_lib.png) no-repeat center center, linear-gradient(180deg, #d8e6d8, #44682d); /* Gradient for background */
+    background-size: 1000px auto;
+    transition: var(--tran-05);
+    padding: 15px;
+}
+.sidebar.close ~ .home-addbook{
+    left: 88px;
+    width: calc(100% - 88px);
+}
+.home-addbook .text{
+    color: var(--text-color);
+    font-size: 24px;
+    font-weight: 500;
+    transition: var(--tran-04);
+    padding: 8px 40px;
+}
+
+
+
+
