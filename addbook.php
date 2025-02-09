@@ -59,8 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="CITE">CITE</option>
             <option value="CMA">CMA</option>
             <option value="CEA">CEA</option>
-            <option value="CAS">CEA</option>
-            <option value="CELA">CEA</option>
+            <option value="CAS">CAS</option>
+            <option value="CELA">CELA</option>
             <!-- Add more departments as needed -->
         </select>
         <button type="submit">Add Book</button>

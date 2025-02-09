@@ -15,7 +15,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
         
         
 
-        <link rel="stylesheet" href="dashboard1.css">
+        <link rel="stylesheet" href="dashboard.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 
@@ -97,10 +97,14 @@ if (!isset($_SESSION['admin_logged_in'])) {
                 </li>
             </div>
         </div>
+
+        
     </nav>
         <section id="dashboard"  class="home">
         <div class="home-content">
-            <div class="text">DASHBOARD</div>
+            <div class="text">Dashboard
+                <div class="dashboard-container">hello hahhah</div>
+            </div>
         </div>
         </section>
 

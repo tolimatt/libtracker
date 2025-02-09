@@ -314,7 +314,11 @@ body.dark .switch::before{
     padding: 8px 40px;
 }
 
-
+div .dashboard-container{
+    background: red;
+    border: 1px solid black;
+    width: 5rem;
+}
 
 
 
