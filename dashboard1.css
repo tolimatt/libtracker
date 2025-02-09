@@ -10,7 +10,7 @@
 
 :root {
     --body-color: #f5f5f5;
-    --sidebar-color: linear-gradient(180deg, #005500, #000000);
+    --sidebar-color: linear-gradient(180deg, #1E5128, #000000);
     --primary-color: #549462;
     --primary-color-light: #f5f5f5;
     --toggle-color: #9cb69b;
@@ -45,14 +45,14 @@ body.dark{
     top: 0;
     left: 0;
     height: 100%;
-    width: 250px;
-    padding: 10px 14px;
+    width: 15.625rem;
+    padding: 0.625rem 0.875rem;
     background: var(--sidebar-color);
     transition: var(--tran-05);
     z-index: 100;
 }
 .sidebar.close{
-    width: 88px;
+    width: 5.5rem;
 }
 
 /* Reusable CSS */
@@ -153,24 +153,6 @@ body.dark .sidebar header .toggle{
 .sidebar .menu{
     margin-top: 35px;
 }
-.sidebar .search-box{
-    background: var(--primary-color-light);
-    border-radius: 6px;
-    transition: var(--tran-05);
-}
-
-.search-box input{
-    height: 100%;
-    width: 100%;
-    background: var(--primary-color-light);
-    border: none;
-    outline: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 500;
-    transition: var(--tran-05);
-    color: var(--text-color);
-}
 
 .sidebar li a{
     width: 100%;
@@ -181,20 +163,37 @@ body.dark .sidebar header .toggle{
     height: 100%;
     border-radius: 6px;
     transition: var(--tran-04);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow effect */
 }
 
-.sidebar li a:hover{
+
+.sidebar li a:hover,
+.sidebar li a:focus,
+.sidebar li a.active {
     background: var(--primary-color);
-}
-
-.sidebar li a:hover .text,
-.sidebar li a:hover .icon{
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
     color: white;
 }
 
+
+
+.sidebar li a:hover .text,
+.sidebar li a:hover .icon,
+.sidebar li a:focus .text,
+.sidebar li a:focus .icon,
+.sidebar li a.active .text,
+.sidebar li a.active .icon {
+    color: white;
+}
+
+
 body.dark .sidebar li a:hover .text,
-body.dark .sidebar li a:hover .icon{
-    color: var(white);
+body.dark .sidebar li a:hover .icon,
+body.dark .sidebar li a:focus .text,
+body.dark .sidebar li a:focus .icon,
+body.dark .sidebar li a.active .text,
+body.dark .sidebar li a.active .icon {
+    color: white;
 }
 
 .sidebar .menu-bar{
@@ -297,9 +296,9 @@ body.dark .switch::before{
     left: 250px;
     height: 100vh;
     width: calc(100% - 250px);
-    background: url(logo_lib.png) no-repeat center center, linear-gradient(180deg, #d8e6d8, #44682d); /* Gradient for background */
+    background: url(logo_lib.png) no-repeat center center var(--body-color); /* Gradient for background */
     background-size: 1000px auto;
-    transition: var(--tran-05);
+    transition: var(--tran-04);
     padding: 15px;
 }
 .sidebar.close ~ .home-addbook{
@@ -315,10 +314,19 @@ body.dark .switch::before{
 }
 
 div .dashboard-container{
-    background: red;
+    background: rgb(148, 110, 110);
     border: 1px solid black;
-    width: 5rem;
+    width: 20rem;
 }
+.home-content{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 15px;
+    height: 100%;
+}
+
+
 
 
 

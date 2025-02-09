@@ -44,34 +44,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="add_book.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <title>Add Book</title>
-    <link rel="stylesheet" href="add_book.css">
+    <link rel="stylesheet" href="add_book1.css">
 </head>
 <body>
-    <h1>Add Book</h1>
-    <form class="addbookform" action="" method="POST">  <!-- Submits to the same file -->
-        <input type="text" name="title" placeholder="Book Title" required>
-        <input type="text" name="author" placeholder="Author" required>
-        <input type="number" name="isbn" placeholder="Book Code" required> <!-- Fixed name -->
-        <input type="number" name="copies_available" placeholder="Available Copies" required>
-        <input type="number" name="total_copies" placeholder="Total Copies" required>
-        <select name="department" required>
-            <option value="" disabled selected>Select Department</option>
-            <option value="CITE">CITE</option>
-            <option value="CMA">CMA</option>
-            <option value="CEA">CEA</option>
-            <option value="CAS">CAS</option>
-            <option value="CELA">CELA</option>
-            <!-- Add more departments as needed -->
-        </select>
-        <button type="submit">Add Book</button>
-    </form>
+<div class="addbutton"><button id="openFormButton"><i class='bx bx-plus icon '></i></button></div>
+    <div class="addbookform-container" id="addBookForm">
+        <h1>Add Book</h1>
+        <form class="addbookform" action="" method="POST">  <!-- Submits to the same file -->
+            <input type="text" name="title" placeholder="Book Title" required>
+            <input type="text" name="author" placeholder="Author" required>
+            <input type="number" name="isbn" placeholder="Book Code" required> <!-- Fixed name -->
+            <input type="number" name="copies_available" placeholder="Available Copies" required>
+            <input type="number" name="total_copies" placeholder="Total Copies" required>
+            <select name="department" required>
+                <option value="" disabled selected>Select Department</option>
+                <option value="CITE">CITE</option>
+                <option value="CMA">CMA</option>
+                <option value="CEA">CEA</option>
+                <option value="CAS">CAS</option>
+                <option value="CELA">CELA</option>
+                <!-- Add more departments as needed -->
+            </select>
+            <button type="submit">Add Book</button>
+        </form>
+    </div>
 
     <?php
     // Fetch and display books
     $result = $conn->query("SELECT * FROM books ORDER BY book_id DESC");
 
     if ($result->num_rows > 0) {
-        echo "<h2>Book List</h2>";
+        
+       
         echo "<div class='table-container'>";
         echo "<table border='1'>";
         echo "<tr>
@@ -115,6 +119,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 function confirmDelete() {
     return confirm("Are you sure you want to delete this book?");
 }
+document.addEventListener('DOMContentLoaded', function() {
+    const openFormButton = document.getElementById('openFormButton');
+    const addBookForm = document.getElementById('addBookForm');
+    const mainContent = document.querySelector('.table-container');
+
+    openFormButton.addEventListener('click', function() {
+        addBookForm.classList.toggle('active');
+        mainContent.classList.toggle('shifted');
+    });
+});
 </script>
 </body>
 </html>

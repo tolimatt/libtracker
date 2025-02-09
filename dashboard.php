@@ -15,7 +15,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
         
         
 
-        <link rel="stylesheet" href="dashboard.css">
+        <link rel="stylesheet" href="dashboard1.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 
@@ -47,7 +47,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
                 <li class="nav-link">
                     <a href="#">
                         <i class='bx bx-home-alt icon' ></i>
-                        <span class="text nav-text">Dashboard</span>
+                        <span class="text nav-text">Overview</span>
                     </a>
                 </li>
                 <li class="nav-link">
@@ -59,13 +59,13 @@ if (!isset($_SESSION['admin_logged_in'])) {
                 <li class="nav-link">
                     <a href="#">
                     <i class='bx bx-user icon' ></i>
-                        <span class="text nav-text">Students</span>
+                        <span class="text nav-text">Attendance</span>
                     </a>
                 </li>
                 <li class="nav-link">
                     <a href="#">
                         <i class='bx bx-bell icon' ></i>
-                        <span class="text nav-text">Tracking</span>
+                        <span class="text nav-text">Borrowed Book</span>
                     </a>
                 </li>
                 <li class="nav-link">
@@ -100,19 +100,18 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
         
     </nav>
-        <section id="dashboard"  class="home">
+    <section id="dashboard" class="home-addbook">
         <div class="home-content">
-            <div class="text">Dashboard
-                <div class="dashboard-container">hello hahhah</div>
+            <?php include 'home.php'; ?>
             </div>
-        </div>
-        </section>
+    </section>
 
-        <section id="addbook" class="home-addbook">
+
+    <section id="addbook" class="home-addbook">
         <div class="home-content">
             <?php include 'addbook.php'; ?>
         </div>
-        </section>
+    </section>
 
 
         <script src="script.js"> </script>
