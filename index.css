@@ -1,9 +1,23 @@
-/* addbook.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --body-color: #f5f5f5;
+    --sidebar-color: linear-gradient(180deg, #1E5128, #000000);
+    --primary-color: #549462;
+    --primary-color-light: #f5f5f5;
+    --toggle-color: #9cb69b;
+    --text-color: #9b9b9b;
+    --tran-02: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.5s ease;
 }
 body {
     font-family: 'Poppins', sans-serif;

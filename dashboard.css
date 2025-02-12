@@ -61,7 +61,7 @@ body.dark{
     color: var(--text-color);
     font-size: 16px;
     font-weight: 500;
-    transition: var(--tran-04);   
+    transition: var(--tran-05);   
     white-space: nowrap;
     opacity: 1;
 }
@@ -96,7 +96,7 @@ body.dark{
 .sidebar li .icon,
 .sidebar li .text{
     color: var(--text-color);
-    transition: var(--tran-02);
+    transition: var(--tran-05);
    
 }
 
@@ -141,7 +141,7 @@ header .image-text .header-text{
     border-radius: 50%;
     color: var(--sidebar-color);
     font-size: 22px;
-    transition: var(--tran-03);
+    transition: var(--tran-05);
 }
 .sidebar.close header .toggle{
     transform: translateY(-50%);
@@ -153,7 +153,11 @@ body.dark .sidebar header .toggle{
 .sidebar .menu{
     margin-top: 35px;
 }
-
+ a.active {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on active */
+}
 .sidebar li a{
     width: 100%;
     height: 100%;
@@ -162,7 +166,7 @@ body.dark .sidebar header .toggle{
     align-items: center;
     height: 100%;
     border-radius: 6px;
-    transition: var(--tran-04);
+    transition: var(--tran-05);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow effect */
 }
 
@@ -172,7 +176,7 @@ body.dark .sidebar header .toggle{
 .sidebar li a.active {
     background: var(--primary-color);
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 
@@ -183,18 +187,20 @@ body.dark .sidebar header .toggle{
 .sidebar li a:focus .icon,
 .sidebar li a.active .text,
 .sidebar li a.active .icon {
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 
-body.dark .sidebar li a:hover .text,
-body.dark .sidebar li a:hover .icon,
-body.dark .sidebar li a:focus .text,
-body.dark .sidebar li a:focus .icon,
-body.dark .sidebar li a.active .text,
-body.dark .sidebar li a.active .icon {
-    color: white;
+body.dark .sidebar li  a:hover .text,
+body.dark .sidebar li  a:hover .icon,
+body.dark .sidebar li  a:focus .text,
+body.dark .sidebar li  a:focus .icon,
+body.dark .sidebar li  a.active .text,
+body.dark .sidebar li  a.active .icon {
+    color: rgb(255, 255, 255);
 }
+
+
 
 .sidebar .menu-bar{
   
@@ -212,7 +218,7 @@ body.dark .sidebar li a.active .icon {
 
 .menu-bar .mode i{
     position: absolute;
-    transition: var(--tran-03);
+    transition: var(--tran-05);
 }
 
 .menu-bar .mode .moon-sun{
@@ -283,7 +289,7 @@ body.dark .switch::before{
     color: var(--text-color);
     font-size: 24px;
     font-weight: 500;
-    transition: var(--tran-04);
+    transition: var(--tran-05);
     padding: 8px 40px;
 }
 .sidebar.close ~ .home{
@@ -298,7 +304,7 @@ body.dark .switch::before{
     width: calc(100% - 250px);
     background: url(logo_lib.png) no-repeat center center var(--body-color); /* Gradient for background */
     background-size: 1000px auto;
-    transition: var(--tran-04);
+    transition: var(--tran-05);
     padding: 15px;
 }
 .sidebar.close ~ .home-addbook{
@@ -309,7 +315,7 @@ body.dark .switch::before{
     color: var(--text-color);
     font-size: 24px;
     font-weight: 500;
-    transition: var(--tran-04);
+    transition: var(--tran-05);
     padding: 8px 40px;
 }
 

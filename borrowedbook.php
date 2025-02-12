@@ -39,20 +39,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="add_book.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-    <title>Book Management</title>
+    <title>Borrowed Book Management</title>
 </head>
 <body>
 <div class="container">
     <div class="search-sort">
-        <h1>Add Book</h1>
+        <h1>Borrowed Book</h1>
         <input type="text" id="search" placeholder="Search...">
         <button class="filter-btn"><i class='bx bx-filter-alt'></i> Filter</button>
         <button class="sort-btn"><i class='bx bx-sort'></i> Sort</button>
     </div>
-    <button id="openFormButton" class="add-btn">+ ADD BOOK</button>
     
-   
-
     <div id="addBookForm" class="addbookform-container">
         <form action="" method="POST" class="modal-content">
             <input type="text" name="title" placeholder="Book Title" required>
