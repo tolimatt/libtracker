@@ -1,48 +1,16 @@
 <?php include 'db_config.php'; ?>
 
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["delete_book"])) {
-        $book_id = $_POST["book_id"];
-        $delete_sql = "DELETE FROM books WHERE book_id = $book_id";
-        if ($conn->query($delete_sql) === TRUE) {
-            echo "<script>alert('Book deleted successfully!');</script>";
-        } else {
-            echo "<script>alert('Error deleting book: " . $conn->error . "');</script>";
-        }
-    } else {
-        if (isset($_POST['title'], $_POST['author'], $_POST['isbn'], $_POST['copies_available'], $_POST['total_copies'], $_POST['department'])) {
-            $title = $_POST['title'];
-            $author = $_POST['author'];
-            $book_number = $_POST['isbn'];
-            $copies_available = $_POST['copies_available'];
-            $total_copies = $_POST['total_copies'];
-            $department = $_POST['department'];
-
-            $sql = "INSERT INTO books (title, author, isbn, copies_available, total_copies, department) 
-                    VALUES ('$title', '$author', '$book_number', '$copies_available', '$total_copies', '$department')";
-
-            if ($conn->query($sql) === TRUE) {
-                echo "<script>alert('Book added successfully!');</script>";
-            } else {
-                echo "<script>alert('Error: " . $conn->error . "');</script>";
-            }
-        }
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="add_book.css">
+    <link rel="stylesheet" href="borrowedbook.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <title>Borrowed Book Management</title>
 </head>
 <body>
-<div class="container">
+<div class="container1">
     <div class="search-sort">
         <h1>Borrowed Book</h1>
         <input type="text" id="search" placeholder="Search...">
@@ -113,35 +81,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </table>
     </div>
 </div>
-
-<script>
-function confirmDelete() {
-    return confirm("Are you sure you want to delete this book?");
-}
-document.addEventListener('DOMContentLoaded', function() {
-    const openFormButton = document.getElementById('openFormButton');
-    const addBookForm = document.getElementById('addBookForm');
-    const container = document.querySelector('.container');
-    const closeFormButton = document.getElementById('closeFormButton');
-
-    openFormButton.addEventListener('click', function() {
-        addBookForm.classList.toggle('active');
-        container.classList.toggle('shifted');
-    });
-
-    closeFormButton.addEventListener('click', function() {
-        addBookForm.classList.remove('active');
-        container.classList.remove('shifted');
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!addBookForm.contains(event.target) && !openFormButton.contains(event.target)) {
-            addBookForm.classList.remove('active');
-            container.classList.remove('shifted');
-        }
-    });
-});
-</script>
-
 </body>
 </html>

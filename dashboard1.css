@@ -172,7 +172,6 @@ body.dark .sidebar header .toggle{
 
 
 .sidebar li a:hover,
-.sidebar li a:focus,
 .sidebar li a.active {
     background: var(--primary-color);
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
@@ -183,8 +182,6 @@ body.dark .sidebar header .toggle{
 
 .sidebar li a:hover .text,
 .sidebar li a:hover .icon,
-.sidebar li a:focus .text,
-.sidebar li a:focus .icon,
 .sidebar li a.active .text,
 .sidebar li a.active .icon {
     color: rgb(255, 255, 255);
@@ -193,8 +190,6 @@ body.dark .sidebar header .toggle{
 
 body.dark .sidebar li  a:hover .text,
 body.dark .sidebar li  a:hover .icon,
-body.dark .sidebar li  a:focus .text,
-body.dark .sidebar li  a:focus .icon,
 body.dark .sidebar li  a.active .text,
 body.dark .sidebar li  a.active .icon {
     color: rgb(255, 255, 255);

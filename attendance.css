@@ -27,9 +27,10 @@ body {
     background-color: #9BCF99;
     margin: 0;
     padding: 0;
+    transition: var(--tran-05);
 }
 
-.container {
+.container1 {
     width: 100%;
     height: 100%;
     margin: auto;
@@ -38,7 +39,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     opacity: 0.9;
-    transition: margin-right (--tran-05);
+    transition: var(--tran-05) ease;
 }
 
 .search-sort h1 {
@@ -108,83 +109,6 @@ body {
 .filter-btn:hover, .sort-btn:hover {
     background-color: #4CAF50;
     color: white;
-}
-
-/* Add Book Form Styling */
-.addbookform-container {
-    position: fixed;
-    top: 0;
-    right: -300px; /* Initially hidden off-screen */
-    width: 300px; /* Adjust width as needed */
-    height: 100%;
-    background: white;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: right var(--tran-05); /* Smooth sliding effect */
-    padding: 20px;
-    z-index: 1000; /* Ensure it appears above other content */
-    display: flex;
-    flex-direction: column; /* Ensure form elements are stacked vertically */
-}
-
-.addbookform-container.active {
-    right: 0; /* Slide in from the right */
-}
-
-.addbookform-container h1 {
-    margin-bottom: 20px;
-}
-
-.addbookform-container input,
-.addbookform-container select,
-.addbookform-container button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.addbookform-container button {
-    background: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.addbookform-container button:hover {
-    background: #218838;
-}
-
-/* Floating Add Button Styling */
-.addbutton {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1001; /* Ensure it appears above other content */
-}
-
-.addbutton button {
-    background: #28a745;
-    color: white;
-    font-size: 24px;
-    border: none;
-    cursor: pointer;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: var(--tran-05);
-}
-
-.addbutton button:hover {
-    background: #218838;
-}
-
-/* Main content adjustment when form is open */
-
-
-.container.shifted {
-    margin-right: 300px; /* Adjust margin to match form width */
 }
 
 .table-container {

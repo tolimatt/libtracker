@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index1.css">
 </head>
 <body>
     <div class="login-container">
@@ -51,8 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
-                <a href="forgot_password.php">Forgot password?</a>
                 <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
+                <a href="forgot_password.php">Forgot password?</a>
+                
             </div>
             <button type="submit" class="btn">Sign In</button>
         </form>

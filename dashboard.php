@@ -15,7 +15,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
         
         
 
-        <link rel="stylesheet" href="dashboard.css">
+        <link rel="stylesheet" href="dashboard1.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 
@@ -109,6 +109,12 @@ if (!isset($_SESSION['admin_logged_in'])) {
             </div>
     </section>
 
+    <section id="users" class="home-addbook">
+        <div class="home-content">
+            <?php include 'users.php'; ?>
+        </div>
+    </section>
+
 
     <section id="addbook" class="home-addbook">
         <div class="home-content">
@@ -128,11 +134,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
         </div>
     </section>
 
-    <section id="users" class="home-addbook">
-        <div class="home-content">
-            <?php include 'users.php'; ?>
-        </div>
-    </section>
+    
 
 
 
