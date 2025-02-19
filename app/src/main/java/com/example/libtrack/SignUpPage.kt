@@ -1241,23 +1241,23 @@ data class ApiResponseSignup(
 )
 
 data class UserData(
-    val firstname: String,
-    val lastname: String,
-    val studentid: String,
+    val first_name: String,
+    val last_name: String,
+    val student_id: String,
     val password: String,
-    val yearlevel: String,
-    val program: String,
-    val schoolemail: String,
-    val contactnumber: String
+    val year_level: String,
+    val department: String,
+    val phinmaed_email: String,
+    val contact_number: String
 )
 
 interface SignupServer {
-    @POST("libTrack/signup.php")
+    @POST("LibTrack/signup_mobile.php")
     suspend fun signup(@Body userData: UserData): Response<ApiResponseSignup>
 }
 
 object RetrofitSignup {
-    private const val BASE_URL = "http://192.168.1.59/" // IPV4 Address of the connection
+    private const val BASE_URL = "http://192.168.1.170/" // IPV4 Address of the connection
 
     val api: SignupServer by lazy {
         val gson = GsonBuilder().setLenient().create()

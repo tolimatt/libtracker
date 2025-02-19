@@ -481,17 +481,17 @@ data class ApiResponseLogin(
 )
 
 data class LoginData(
-    val studentid: String,
+    val student_id: String,
     val password: String
 )
 
 interface LoginServer {
-    @POST("libTrack/login.php")
+    @POST("LibTrack/login_mobile.php")
     suspend fun login(@Body loginData: LoginData): Response<ApiResponseLogin>
 }
 
 object RetrofitLogin {
-    private const val BASE_URL = "http://192.168.1.59/" // IPV4 Address of the connection
+    private const val BASE_URL = "http://192.168.1.170/" // IPV4 Address of the connection
 
     val api: LoginServer by lazy {
         val gson = GsonBuilder().setLenient().create()
