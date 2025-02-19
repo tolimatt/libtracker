@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 *{
     margin: 0;
@@ -20,6 +20,8 @@
     --tran-05: all 0.5s ease;
 }
 
+
+
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #9BCF99;
@@ -28,7 +30,7 @@ body {
     transition: var(--tran-05);
 }
 
-.container1 {
+.container {
     width: 100%;
     height: 100%;
     margin: auto;
@@ -38,10 +40,6 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     opacity: 0.9;
     transition: var(--tran-05) ease;
-}
-
-.container1.shifted {
-    margin-right: 300px; /* Adjust margin to match scanner width */
 }
 
 .search-sort h1 {
@@ -113,10 +111,75 @@ body {
     color: white;
 }
 
+/* Add Book Form Styling */
+.addbookform-container {
+    position: absolute;
+    top: 0;
+    right: -300px; /* Initially hidden off-screen */
+    width: 300px; /* Adjust width as needed */
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.5s ease; /* Smooth sliding effect */
+    padding: 20px;
+    z-index: 1000; /* Ensure it appears above other content */
+    display: flex;
+    flex-direction: column; /* Ensure form elements are stacked vertically */
+}
+
+.addbookform-container.active {
+    right: 0; /* Slide in from the right */
+}
+
+.addbookform-container h1 {
+    margin-bottom: 20px;
+}
+
+.addbookform-container input,
+.addbookform-container select,
+.addbookform-container button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.addbookform-container button {
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.addbookform-container button:hover {
+    background: #218838;
+}
+
+/* Floating Add Button Styling */
+.add-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 20%;
+    margin-bottom: 10px;
+}
+
+.add-btn:hover {
+    background-color: #388E3C;
+}
+
+.container.shifted {
+    margin-right: 300px; /* Adjust margin to match form width */
+}
+
 .table-container {
     width: 100%;
-    height: 400px; /* Set a fixed height for the table container */
-    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: auto;
     background: white;
     border-radius: 10px;
     padding: 10px;
@@ -156,25 +219,4 @@ tbody td {
 
 .delete-btn:hover {
     color: #B71C1C;
-}
-
-/* Scanner Container Styling */
-#scanner-container {
-    position: fixed;
-    top: 0;
-    right: -100%; /* Initially hidden off-screen */
-    width: 500px; /* Adjust width as needed */
-    height: 100%;
-    background: white;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: right 0.5s ease; /* Smooth sliding effect */
-    padding: 20px;
-    z-index: 1000; /* Ensure it appears above other content */
-    display: space-between;
-    flex-direction: column; /* Ensure form elements are stacked vertically */
-    
-}
-
-#scanner-container.active {
-    right: 0; /* Slide in from the right */
 }

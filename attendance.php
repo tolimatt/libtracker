@@ -5,14 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="attendance1.css">
+    <link rel="stylesheet" href="attendance_css.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-    <title>Attendance Management</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+    <title>Attendance Management</title>
 </head>
 <body>
 
-<div class="container1">
+<div class="container2">
     <div class="search-sort">
         <h1>Attendance</h1>
         <input type="text" id="search" placeholder="Search...">
@@ -21,7 +21,7 @@
     </div>
     <button id="startScanner" class="add-btn">Start Scanner</button>
     
-    <div id="scanner-container">
+    <div id="scanner-container1">
         <div id="scanner"></div>
         <button id="stopScanner" class="add-btn">Stop Scanner</button>
     </div>
@@ -62,7 +62,7 @@
                               </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='6'>No Attendance Records Found.</td></tr>";
+                    echo "<tr><td colspan='7'>No Attendance Records Found.</td></tr>";
                 }
                 ?>
             </tbody>
@@ -74,8 +74,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const startScannerButton = document.getElementById('startScanner');
     const stopScannerButton = document.getElementById('stopScanner');
-    const scannerContainer = document.getElementById('scanner-container');
-    const container = document.querySelector('.container1');
+    const scannerContainer = document.getElementById('scanner-container1');
+    const container = document.querySelector('.container2');
     let lastScannedCode = null;
     let lastScannedTime = 0;
 
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 type: "LiveStream",
                 target: document.querySelector('#scanner'),
                 constraints: {
-                    width: 400,
+                    width: 460,
                     height: 400,
                     facingMode: "environment"
                 },
