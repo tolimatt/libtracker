@@ -25,7 +25,8 @@
                 <tr>
                     <th><input type="checkbox" id="selectAll"></th>
                     <th>Student Id</th>
-                    <th>Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Department</th>
                     <th>Year Level</th>
                     <th>Phinma Email</th>
@@ -41,7 +42,8 @@
                         echo "<tr>
                                 <td><input type='checkbox' class='select-item'></td>
                                 <td>{$row['student_id']}</td>
-                                <td>{$row['name']}</td>
+                                <td>{$row['first_name']}</td>
+                                <td>{$row['last_name']}</td>
                                 <td>{$row['department']}</td>
                                 <td>{$row['year_level']}</td>
                                 <td>{$row['phinmaed_email']}</td>

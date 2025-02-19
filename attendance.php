@@ -31,7 +31,8 @@
             <thead>
                 <tr>
                     <th>Student Id</th>
-                    <th>Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Department</th>
                     <th>Year Level</th>
                     <th>Entry Time</th>
@@ -40,7 +41,7 @@
             </thead>
             <tbody>
                 <?php
-                $query = "SELECT user.student_id, user.name, user.department, user.year_level, 
+                $query = "SELECT user.student_id, user.first_name, user.last_name, user.department, user.year_level, 
                                  attendance.entry_time, attendance.exit_time 
                           FROM attendance 
                           INNER JOIN user ON attendance.student_id = user.student_id 
@@ -52,7 +53,8 @@
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>
                                 <td>{$row['student_id']}</td>
-                                <td>{$row['name']}</td>
+                                <td>{$row['first_name']}</td>
+                                <td>{$row['last_name']}</td>
                                 <td>{$row['department']}</td>
                                 <td>{$row['year_level']}</td>
                                 <td>{$row['entry_time']}</td>
@@ -96,8 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 type: "LiveStream",
                 target: document.querySelector('#scanner'),
                 constraints: {
-                    width: 300,
-                    height: 300,
+                    width: 400,
+                    height: 400,
                     facingMode: "environment"
                 },
             },
