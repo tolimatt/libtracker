@@ -15,7 +15,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
         
         
 
-        <link rel="stylesheet" href="dashboard1.css">
+        <link rel="stylesheet" href="dashboard.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 
@@ -70,13 +70,14 @@ if (!isset($_SESSION['admin_logged_in'])) {
                         <span class="text nav-text">Attendance</span>
                     </a>
                 </li>
+
                 <li class="nav-link">
                     <a href="#borrowedbook">
-                        <i class='bx bx-bell icon' ></i>
+                    <i class='bx bx-bell icon' ></i>
                         <span class="text nav-text">Borrowed Book</span>
                     </a>
                 </li>
-                
+
             </ul>
             </div>
 
@@ -100,9 +101,8 @@ if (!isset($_SESSION['admin_logged_in'])) {
                 </li>
             </div>
         </div>
-
-        
     </nav>
+    
     <section id="dashboard" class="home-addbook">
         <div class="home-content">
             <?php include 'home.php'; ?>
@@ -133,9 +133,6 @@ if (!isset($_SESSION['admin_logged_in'])) {
             <?php include 'borrowedbook.php'; ?>
         </div>
     </section>
-
-    
-
 
 
         <script src="script.js"> </script>
