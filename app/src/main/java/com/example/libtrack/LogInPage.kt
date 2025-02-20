@@ -491,7 +491,7 @@ interface LoginServer {
 }
 
 object RetrofitLogin {
-    private const val BASE_URL = "http://192.168.1.170/" // IPV4 Address of the connection
+    private const val BASE_URL = "http://10.40.98.57/" // IPV4 Address of the connection
 
     val api: LoginServer by lazy {
         val gson = GsonBuilder().setLenient().create()

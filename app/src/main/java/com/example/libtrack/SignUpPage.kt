@@ -461,16 +461,16 @@ fun Page1_SU(navHostController: NavHostController){
                             isPasswordLength = true
                             isValidStudentId = true
                             navHostController.navigate("Page2_SU/$firstname/$lastname/$studentId/$password") // Use '/' to separate arguments
-                        } else if (studentIdTS.length < 10){
-                            isValidStudentId = false
-                            isCompletePage1 = true
-                            isPasswordMatch = true
-                            isPasswordLength = true
-                        }else if (!allCompletedPage1) { // Incomplete Page
+                        } else if (!allCompletedPage1) { // Incomplete Page
                             isCompletePage1 = false
                             isPasswordMatch = true
                             isPasswordLength = true
                             isValidStudentId = true
+                        }else if (studentIdTS.length < 10){
+                            isValidStudentId = false
+                            isCompletePage1 = true
+                            isPasswordMatch = true
+                            isPasswordLength = true
                         } else if (passwordTS != confirmPasswordTS) { // Password Not Match
                             isPasswordMatch = false
                             isCompletePage1 = true
@@ -1257,7 +1257,7 @@ interface SignupServer {
 }
 
 object RetrofitSignup {
-    private const val BASE_URL = "http://192.168.1.170/" // IPV4 Address of the connection
+    private const val BASE_URL = "http://10.40.98.57/" // IPV4 Address of the connection
 
     val api: SignupServer by lazy {
         val gson = GsonBuilder().setLenient().create()
