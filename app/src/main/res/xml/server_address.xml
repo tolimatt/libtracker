@@ -2,6 +2,10 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <!-- Allow cleartext (http) traffic for this domain -->
+<<<<<<< HEAD
         <domain includeSubdomains="true">10.40.98.57</domain> <!-- Replace with your server IP or domain -->
+=======
+        <domain includeSubdomains="true">192.168.1.59</domain> <!-- Replace with your server IP or domain -->
+>>>>>>> parent of 8fb39ad (made some changes)
     </domain-config>
 </network-security-config>
