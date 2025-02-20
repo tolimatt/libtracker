@@ -30,7 +30,7 @@ body {
     transition: var(--tran-05);
 }
 
-.container1 {
+.container4 {
     width: 100%;
     height: 100%;
     margin: auto;
@@ -40,7 +40,6 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     opacity: 0.9;
     z-index: 1000;
-    transition: var(--tran-05) ease;
 }
 
 .search-sort h1 {
@@ -112,9 +111,10 @@ body {
     color: white;
 }
 
-.table-container {
+.table-container1 {
     width: 100%;
-    overflow-x: auto;
+    height: 94.5%;
+    overflow-y: auto; /* Enable vertical scrolling */    
     background: white;
     border-radius: 10px;
     padding: 10px;

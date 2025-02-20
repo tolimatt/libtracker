@@ -116,9 +116,9 @@ body {
     color: white;
 }
 
-.table-container {
+.table-container3 {
     width: 100%;
-    height: 400px; /* Set a fixed height for the table container */
+    height: 87.5%; /* Set a fixed height for the table container */
     overflow-y: auto; /* Enable vertical scrolling */
     background: white;
     border-radius: 10px;

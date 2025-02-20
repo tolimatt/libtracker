@@ -6,12 +6,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="users.css">
+    <link rel="stylesheet" href="users1.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <title>User Management</title>
 </head>
 <body>
-<div class="container1">
+<div class="container4">
     <div class="search-sort">
         <h1>Users</h1>
         <input type="text" id="search" placeholder="Search...">
@@ -19,7 +19,7 @@
         <button class="sort-btn"><i class='bx bx-sort'></i> Sort</button>
     </div>
     
-    <div class="table-container">
+    <div class="table-container1">
         <table>
             <thead>
                 <tr>

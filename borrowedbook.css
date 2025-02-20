@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --body-color: #f5f5f5;
+    --sidebar-color: linear-gradient(180deg, #1E5128, #000000);
+    --primary-color: #549462;
+    --primary-color-light: #f5f5f5;
+    --toggle-color: #9cb69b;
+    --text-color: #9b9b9b;
+    --tran-02: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.5s ease;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #9BCF99;
+    margin: 0;
+    padding: 0;
+    transition: var(--tran-05);
+}
+
+.container3 {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    padding: 20px;
+    background: #83b48a;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0.9; 
+}
+
+.search-sort h1 {
+    color: #ffffff;
+    width: 100%;
+    font-size: 32px;
+}
+
+.add-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 20%;
+    margin-bottom: 10px;
+}
+
+.add-btn:hover {
+    background-color: #388E3C;
+}
+
+.search-sort {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+}
+
+.search-sort input {
+    width: 50%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    margin-right: 20px;
+}
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #4CAF50;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    gap: 5px;
+    width: 30%;
+}
+
+.sort-btn {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    background-color: #83b48a;
+    border: 1px solid #ffffff;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    gap: 5px;
+    width: 30%;
+}
+
+.filter-btn:hover,
+.sort-btn:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.table-container4 {
+    width: 100%;
+    height: 94.5%; /* Set a fixed height for the table container */
+    overflow-y: auto; /* Enable vertical scrolling */
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+thead {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+}
+
+thead th {
+    padding: 10px;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody td {
+    padding: 10px;
+    text-align: center;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #D32F2F;
+    font-size: 18px;
+}
+
+.delete-btn:hover {
+    color: #B71C1C;
+}

@@ -26,7 +26,7 @@
         <button id="stopScanner" class="add-btn">Stop Scanner</button>
     </div>
 
-    <div class="table-container">
+    <div class="table-container3">
         <table>
             <thead>
                 <tr>
@@ -36,7 +36,6 @@
                     <th>Department</th>
                     <th>Year Level</th>
                     <th>Entry Time</th>
-                    <th>Exit Time</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,7 +57,6 @@
                                 <td>{$row['department']}</td>
                                 <td>{$row['year_level']}</td>
                                 <td>{$row['entry_time']}</td>
-                                <td>" . ($row['exit_time'] ? $row['exit_time'] : 'Still Inside') . "</td>
                               </tr>";
                     }
                 } else {
@@ -90,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
         container.classList.remove('shifted');
         stopScanner();
     });
+
+
 
     function startScanner() {
         Quagga.init({
