@@ -6,7 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $book_id = $_POST["book_id"];
         $delete_sql = "DELETE FROM books WHERE book_id = $book_id";
         if ($conn->query($delete_sql) === TRUE) {
-            echo "<script>alert('Book deleted successfully!');</script>";
         } else {
             echo "<script>alert('Error deleting book: " . $conn->error . "');</script>";
         }
@@ -23,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     VALUES ('$title', '$author', '$book_number', '$copies_available', '$total_copies', '$department')";
 
             if ($conn->query($sql) === TRUE) {
-                echo "<script>alert('Book added successfully!');</script>";
+
             } else {
                 echo "<script>alert('Error: " . $conn->error . "');</script>";
             }
@@ -37,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="add_book.css">
+    <link rel="stylesheet" href="add_book1.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <title>Book Management</title>
 </head>
@@ -66,6 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="CEA">CEA</option>
                 <option value="CAS">CAS</option>
                 <option value="CELA">CELA</option>
+                <option value="CCJE">CCJE</option>
+                <option value="CAHS">CAHS</option>
             </select>
             <button type="submit">Add Book</button>
             <button type="button" id="closeFormButton">Cancel</button>
@@ -83,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <th>Available Copies</th>
                         <th>Total Copies</th>
                         <th>Department</th>
-                        <th>Options</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -31,6 +31,7 @@
                     <th>Return Date</th>
                     <th>Return Status</th>
                     <th>Renewal Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,10 +55,14 @@
                                 <td>{$row['return_date']}</td>
                                 <td>{$row['return_status']}</td>
                                 <td>{$row['renewal_status']}</td>
+                                <td>
+                                    <button class='return-btn' data-id='{$row['transaction_id']}'>Return</button>
+                                    <button class='renew-btn' data-id='{$row['transaction_id']}'>Renew</button>
+                                </td>
                               </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='8'>No Borrowed Books Found.</td></tr>";
+                    echo "<tr><td colspan='9'>No Borrowed Books Found.</td></tr>";
                 }
                 ?>
             </tbody>
@@ -66,7 +71,43 @@
 </div>
 
 <script>
-   
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.return-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const transactionId = this.getAttribute('data-id');
+            updateStatus(transactionId, 'return');
+        });
+    });
+
+    document.querySelectorAll('.renew-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const transactionId = this.getAttribute('data-id');
+            updateStatus(transactionId, 'renew');
+        });
+    });
+
+    function updateStatus(transactionId, action) {
+        fetch('update_status.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ transaction_id: transactionId, action: action })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Status updated successfully!');
+                location.reload(); // Reload the page to reflect changes
+            } else {
+                alert('Error updating status: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+});
 </script>
 
 </body>

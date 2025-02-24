@@ -12,7 +12,8 @@
     <nav class="header">
         <h1>Dashboard</h1>
         <div class="header-right">
-        <?php echo date('l, F j, Y'); ?>
+        <?php  date_default_timezone_set('Asia/Manila'); // Ensure the timezone is set correctly
+        echo date('l, F j, Y g:i A'); ?>
         </div>
     </nav>
     <div class="dashboard-long-box">

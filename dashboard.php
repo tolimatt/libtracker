@@ -47,23 +47,26 @@ if (!isset($_SESSION['admin_logged_in'])) {
                 <li class="nav-link">
                     <a href="#dashboard">
                         <i class='bx bx-home-alt icon' ></i>
-                        <span class="text nav-text">Overview</span>
+                        <span class="text nav-text">Dashboard</span>
                     </a>
                 </li>
                 
-                <li class="nav-link">
-                    <a href="#users">
-                    <i class='bx bx-user icon' ></i>
-                        <span class="text nav-text">Users</span>
-                    </a>
-                </li>
-
+                
                 <li class="nav-link">
                     <a href="#addbook">
                     <i class='bx bx-book icon' ></i>
                         <span class="text nav-text">Book Management</span>
                     </a>
                 </li>
+                
+
+                <li class="nav-link">
+                    <a href="#borrowedbook">
+                    <i class='bx bx-bell icon' ></i>
+                        <span class="text nav-text">Borrowed Book</span>
+                    </a>
+                </li>
+
                 <li class="nav-link">
                     <a href="#attendance">
                     <i class='bx bx-history icon' ></i>
@@ -72,9 +75,9 @@ if (!isset($_SESSION['admin_logged_in'])) {
                 </li>
 
                 <li class="nav-link">
-                    <a href="#borrowedbook">
-                    <i class='bx bx-bell icon' ></i>
-                        <span class="text nav-text">Borrowed Book</span>
+                    <a href="#users">
+                    <i class='bx bx-user icon' ></i>
+                        <span class="text nav-text">Users</span>
                     </a>
                 </li>
 
@@ -109,22 +112,9 @@ if (!isset($_SESSION['admin_logged_in'])) {
             </div>
     </section>
 
-    <section id="users" class="home-addbook">
-        <div class="home-content">
-            <?php include 'users.php'; ?>
-        </div>
-    </section>
-
-
     <section id="addbook" class="home-addbook">
         <div class="home-content">
             <?php include 'addbook.php'; ?>
-        </div>
-    </section>
-
-    <section id="attendance" class="home-addbook">
-        <div class="home-content">
-            <?php include 'attendance.php'; ?>
         </div>
     </section>
 
@@ -134,6 +124,19 @@ if (!isset($_SESSION['admin_logged_in'])) {
         </div>
     </section>
 
+    
+
+    <section id="attendance" class="home-addbook">
+        <div class="home-content">
+            <?php include 'attendance.php'; ?>
+        </div>
+    </section>
+    
+    <section id="users" class="home-addbook">
+        <div class="home-content">
+            <?php include 'users.php'; ?>
+        </div>
+    </section>
 
         <script src="script.js"> </script>
     

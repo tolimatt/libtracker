@@ -128,6 +128,9 @@ table {
 thead {
     background-color: #ffffff;
     color: rgb(0, 0, 0);
+    position: sticky;
+    top: 0;
+    z-index: 1; /* Ensure the header stays above the table rows */
 }
 
 thead th {

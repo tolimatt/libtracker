@@ -38,25 +38,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="index1.css">
 </head>
 <body>
-    <div class="login-container">
-        <h3>Admin Login</h3>
-        
-        
-        <form method="POST" action="">
-            <div class="form-group">
-                <label class="instruction">Please fill in your unique admin login details below</label><br>
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+    <div class="login-wrapper">
+        <div class="logo-section"></div> <!-- Logo and Background Color -->
+        <div class="form-section">
+            <div class="login-container">
+                <h3>Admin Login</h3>
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label class="instruction">Please fill in your unique admin login details below</label><br>
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                        <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
+                        <a href="forgot_password.php">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn">Sign In</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-                <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
-                <a href="forgot_password.php">Forgot password?</a>
-                
-            </div>
-            <button type="submit" class="btn">Sign In</button>
-        </form>
+        </div>
     </div>
 </body>
 </html>
