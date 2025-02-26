@@ -51,8 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
+                        <input type="password" id="password" name="password" required>  
+
+
                         <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
+                        
                         <a href="forgot_password.php">Forgot password?</a>
                     </div>
                     <button type="submit" class="btn">Sign In</button>

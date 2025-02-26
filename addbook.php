@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $book_id = $_POST["book_id"];
         $delete_sql = "DELETE FROM books WHERE book_id = $book_id";
         if ($conn->query($delete_sql) === TRUE) {
-        } else {
+                    } else {
             echo "<script>alert('Error deleting book: " . $conn->error . "');</script>";
         }
     } else {
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     VALUES ('$title', '$author', '$book_number', '$copies_available', '$total_copies', '$department')";
 
             if ($conn->query($sql) === TRUE) {
-
+                
             } else {
                 echo "<script>alert('Error: " . $conn->error . "');</script>";
             }
@@ -52,9 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div id="addBookForm" class="addbookform-container">
         <h1>Add Book</h1>
-        <form action="" method="POST" class="modal-content">
-            <input type="text" name="title" placeholder="Book Title" required>
-            <input type="text" name="author" placeholder="Author" required>
+        <form action="" method="POST" class="modal-content" id="bookForm">
+            <input type="text" name="title" id="title" placeholder="Book Title" required>
+            <input type="text" name="author" id="author" placeholder="Author" required>
             <input type="number" name="isbn" placeholder="Book Code" required>
             <input type="number" name="copies_available" placeholder="Available Copies" required>
             <input type="number" name="total_copies" placeholder="Total Copies" required>
@@ -73,59 +73,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
     </div>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" id="selectAll"></th>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Book Code</th>
-                        <th>Available Copies</th>
-                        <th>Total Copies</th>
-                        <th>Department</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $result = $conn->query("SELECT * FROM books ORDER BY book_id DESC");
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<tr>
-                                    <td><input type='checkbox' class='select-item'></td>
-                                    <td>{$row['title']}</td>
-                                    <td>{$row['author']}</td>
-                                    <td>{$row['isbn']}</td>
-                                    <td>{$row['copies_available']}</td>
-                                    <td>{$row['total_copies']}</td>
-                                    <td>{$row['department']}</td>
-                                    <td>
-                                        <form method='POST' onsubmit='return confirmDelete()'>
-                                            <input type='hidden' name='book_id' value='{$row['book_id']}'>
-                                            <button type='submit' name='delete_book' class='delete-btn'><i class='bx bx-trash'></i></button>
-                                        </form>
-                                    </td>
-                                  </tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='8'>No books added yet.</td></tr>";
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Book Code</th>
+                    <th>Available Copies</th>
+                    <th>Total Copies</th>
+                    <th>Department</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="bookTableBody">
+                <?php
+                $result = $conn->query("SELECT * FROM books ORDER BY book_id DESC");
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td><input type='checkbox' class='select-item'></td>
+                                <td>{$row['title']}</td>
+                                <td>{$row['author']}</td>
+                                <td>{$row['isbn']}</td>
+                                <td>{$row['copies_available']}</td>
+                                <td>{$row['total_copies']}</td>
+                                <td>{$row['department']}</td>
+                                <td>
+                                    <form method='POST' onsubmit='return confirmDelete()'>
+                                        <input type='hidden' name='book_id' value='{$row['book_id']}'>
+                                        <button type='submit' name='delete_book' class='delete-btn'><i class='bx bx-trash'></i></button>
+                                    </form>
+                                </td>
+                              </tr>";
                     }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+                } else {
+                    echo "<tr><td colspan='8'>No books added yet.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
 function confirmDelete() {
     return confirm("Are you sure you want to delete this book?");
 }
+
 document.addEventListener('DOMContentLoaded', function() {
     const openFormButton = document.getElementById('openFormButton');
     const addBookForm = document.getElementById('addBookForm');
     const container = document.querySelector('.container');
     const closeFormButton = document.getElementById('closeFormButton');
+    const searchInput = document.getElementById('search');
+    const bookTableBody = document.getElementById('bookTableBody');
+    const bookForm = document.getElementById('bookForm');
 
     openFormButton.addEventListener('click', function() {
         addBookForm.classList.toggle('active');
@@ -143,6 +147,38 @@ document.addEventListener('DOMContentLoaded', function() {
             container.classList.remove('shifted');
         }
     });
+
+    searchInput.addEventListener('input', function() {
+        const filter = searchInput.value.toLowerCase();
+        const rows = bookTableBody.getElementsByTagName('tr');
+
+        Array.from(rows).forEach(row => {
+            const title = row.cells[1].textContent.toLowerCase();
+            const author = row.cells[2].textContent.toLowerCase();
+            const isbn = row.cells[3].textContent.toLowerCase();
+            const department = row.cells[6].textContent.toLowerCase();
+
+            if (title.includes(filter) || author.includes(filter) || isbn.includes(filter) || department.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    bookForm.addEventListener('submit', function(event) {
+        const titleInput = document.getElementById('title');
+        const authorInput = document.getElementById('author');
+
+        titleInput.value = toTitleCase(titleInput.value);
+        authorInput.value = toTitleCase(authorInput.value);
+    });
+
+    function toTitleCase(str) {
+        return str.replace(/\w\S*/g, function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
 });
 </script>
 
