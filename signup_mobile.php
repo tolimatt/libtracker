@@ -12,19 +12,19 @@ try {
     if ($connect) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents("php://input"), true);
-            $firstname = $data['first_name'];
-            $lastname = $data['last_name'];
-            $studentid = $data['student_id'];
+            $firstName = $data['firstName'];
+            $lastName = $data['lastName'];
+            $studentId = $data['studentId'];
             $password = $data['password'];
-            $yearlevel = $data['year_level'];
-            $program = $data['department'];
-            $schoolemail = $data['phinmaed_email'];
-            $contactnumber = $data['contact_number'];
+            $yearLevel = $data['yearLevel'];
+            $program = $data['program'];
+            $schoolEmail = $data['schoolEmail'];
+            $contactNumber = $data['contactNumber'];
 
             $stmt = $connect->prepare("INSERT INTO user (
                 first_name, last_name, student_id, password, year_level, department, phinmaed_email, contact_number) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssssss", $firstname, $lastname, $studentid, $password, $yearlevel, $program, $schoolemail, $contactnumber);
+            $stmt->bind_param("ssssssss", $firstName, $lastName, $studentId, $password, $yearLevel, $program, $schoolEmail, $contactNumber);
 
             if ($stmt->execute()) {
                 $response = array("status" => "User inserted successfully");

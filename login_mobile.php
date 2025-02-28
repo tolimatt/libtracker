@@ -13,11 +13,11 @@ try {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents("php://input"), true);
             
-            $studentid = $data['student_id'];
+            $studentId = $data['studentId'];
             $password = $data['password'];
 
             $stmt = $connect->prepare("SELECT * FROM user WHERE student_id = ?"); // Check if user exists
-            $stmt->bind_param("s", $studentid);
+            $stmt->bind_param("s", $studentId);
             $stmt->execute();
             $result = $stmt->get_result();
 
