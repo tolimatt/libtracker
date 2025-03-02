@@ -1,4 +1,4 @@
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -6,83 +6,96 @@
 }
 
 :root {
-    --body-color: #f0f2f5;
-    --primary-color: #007bff;
-    --primary-color-dark: #0056b3;
-    --text-color: #333;
-    --input-bg-color: #fff;
-    --input-border-color: #ccc;
-    --input-focus-border-color: #007bff;
-    --btn-bg-color: #007bff;
-    --btn-hover-bg-color: #0056b3;
-    --error-color: #ff0000;
+    --body-color: #f5f5f5;
+    --sidebar-color: linear-gradient(180deg, #1E5128, #000000);
+    --primary-color: #549462;
+    --primary-color-light: #f5f5f5;
+    --toggle-color: #9cb69b;
+    --text-color: #9b9b9b;
+    --tran-02: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.5s ease;
 }
 
 body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
-    background-color: var(--body-color);
 }
 
 .login-wrapper {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: var(--input-bg-color);
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
     width: 100%;
 }
 
-.logo {
-    width: 100px;
-    height: 100px;
-    background: url('logo_lib.png') no-repeat center center;
-    background-size: contain;
-    margin-bottom: 20px;
+.logo-section {
+    flex: 1;
+    background: url(logo_lib.png) no-repeat center center, linear-gradient(180deg, #005500, #000000);
+    background-size: 900px;
+}
+
+.form-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+.login-container {
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    opacity: 1;
 }
 
 h3 {
     margin-bottom: 20px;
-    color: var(--primary-color);
+    color: #005500; /* Dark green for title */
     font-size: 24px;
-    text-align: center;
 }
 
 .form-group {
-    width: 100%;
     margin-bottom: 20px;
+    text-align: left;
 }
 
 label {
     display: block;
     font-size: 14px;
-    color: var(--text-color);
-    margin-bottom: 5px;
+    font-weight: normal;
+    color: #000000;
+}
+
+label .instructions {
+    font-size: 12px;
+    color: #ff0000; /* Red for instructions */
 }
 
 input[type="text"],
 input[type="password"] {
     width: 100%;
     padding: 10px;
-   border: 1px solid var(--input-border-color);
+    margin-top: 5px;
+    border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
-    background-color: var(--input-bg-color);
-    transition: border-color 0.3s;
 }
 
 input:focus {
-    border-color: var(--input-focus-border-color);
+    border-color: #007700; /* Green border on focus */
     outline: none;
 }
 
 .btn {
-    background-color: var(--btn-bg-color);
+    background-color: #007700;
     color: #fff;
     font-size: 16px;
     padding: 10px;
@@ -90,37 +103,24 @@ input:focus {
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
-    transition: background-color 0.3s;
 }
 
 .btn:hover {
-    background-color: var(--btn-hover-bg-color);
+    background-color: #005500; /* Darker green on hover */
 }
 
 .error {
-    color: var(--error-color);
+    color: #ff0000; /* Red for error messages */
     font-size: 14px;
     margin-bottom: 10px;
     width: 100%;
-    text-align: left;
-}
-
-a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 14px;
-    margin-top: 10px;
-    display: block;
-    text-align: center;
-}
-
-a:hover {
-    text-decoration: underline;
+    display: flex;
+    z-index: 1001;
 }
 
 @media (max-width: 500px) {
-    .login-wrapper {
-        padding: 20px;
+    .login-container {
+        padding: 15px 20px;
     }
 
     h3 {
@@ -135,4 +135,25 @@ a:hover {
     .btn {
         font-size: 14px;
     }
+
+    .login-wrapper {
+        flex-direction: column;
+    }
+
+    .logo-section {
+        height: 200px; /* Adjust the logo section height on small screens */
+    }
+
+    .form-section {
+        width: 100%;
+    }
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+    float: right;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-weight: normal;
 }

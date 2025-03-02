@@ -62,7 +62,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
                 <li class="nav-link">
                     <a href="#borrowedbook">
-                    <i class='bx bx-bell icon' ></i>
+                    <i class='bx bx-book-alt icon' ></i>
                         <span class="text nav-text">Borrowed Book</span>
                     </a>
                 </li>
@@ -80,6 +80,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
                         <span class="text nav-text">Users</span>
                     </a>
                 </li>
+
 
             </ul>
             </div>
@@ -137,6 +138,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
             <?php include 'users.php'; ?>
         </div>
     </section>
+
 
         <script src="script.js"> </script>
     

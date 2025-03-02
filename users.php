@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="users_css.css">
+    <link rel="stylesheet" href="users.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <title>User Management</title>
 </head>
@@ -45,8 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div class="container4">
     <div class="search-sort">
         <h1>Users</h1>
-        <input type="text" id="search" placeholder="Search...">
-        <button class="filter-btn"><i class='bx bx-filter-alt'></i> Filter</button>
+        <input type="text" id="search2" placeholder="Search...">
+        <select id="userFilter" class="filter-attendance">
+            <option value="">All Departments</option>
+            <option value="CITE">CITE</option>
+            <option value="CMA">CMA</option>
+            <option value="CEA">CEA</option>
+            <option value="CAS">CAS</option>
+            <option value="CELA">CELA</option>
+            <option value="CCJE">CCJE</option>
+            <option value="CAHS">CAHS</option>
+        </select>
         <button class="sort-btn"><i class='bx bx-sort'></i> Sort</button>
     </div>
     
@@ -54,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <table>
             <thead>
                 <tr>
-                    <th><input type="checkbox" id="selectAll"></th>
                     <th>Student Id</th>
                     <th>First Name</th>
                     <th>Last Name</th>
@@ -66,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="userTableBody">
                 <?php
                 $result = $conn->query("SELECT * FROM user ORDER BY user_id DESC");
                 if ($result->num_rows > 0) {
@@ -75,7 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $toggleStatus = $row['status'] == 1 ? 'Deactivate' : 'Activate';
                         $toggleIcon = $row['status'] == 1 ? 'bx-user-x' : 'bx-user-check';
                         echo "<tr>
-                                <td><input type='checkbox' class='select-item'></td>
                                 <td>{$row['student_id']}</td>
                                 <td>{$row['first_name']}</td>
                                 <td>{$row['last_name']}</td>
@@ -110,7 +117,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="text" name="first_name" placeholder="First Name" id="editFirstName" required>
             <input type="text" name="last_name" placeholder="Last Name" id="editLastName" required>
             <input type="text" name="department" id="editDepartment" required>
-            <input type="text" name="year_level" id="editYearLevel" required>
+            <select type="text" name="year_level" id="editYearLevel" required>
+                <option value="" disabled selected>Select Year Level</option>
+                <option value="Freshmen (1st Year)">Freshmen (1st Year)</option>
+                <option value="Sophomore (2nd Year)">Sophomore (2nd Year)</option>
+                <option value="Junior (3rd Year)">Junior (3rd Year)</option>
+                <option value="Senior (4th Year)">Senior (4th Year)</option>
+                <option value="Super Senior (5th Year)">Super Senior (5th Year)</option>
+                </select>   
+
+
+
+
             <input type="email" name="phinmaed_email" id="editEmail" required>
             <input type="text" name="contact_number" id="editContactNumber" required>
             <button type="submit" name="update_user" class="update-btn">Update</button>
@@ -123,6 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     <!-- SCRIPT -->
+     
     <script>
     function confirmAction() {
         return confirm('Are you sure you want to perform this action?');
@@ -157,6 +176,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         document.getElementById('editUserContainer').classList.remove('active');
         document.querySelector('.container4').classList.remove('shifted');
     }
+
+
+    function filterTable() {
+        const searchInput = document.getElementById('search2');
+        const userFilter = document.getElementById('userFilter');
+        const filter = searchInput.value.toLowerCase();
+        const department = userFilter.value.toLowerCase();
+        const rows = document.getElementById('userTableBody').getElementsByTagName('tr');
+
+        Array.from(rows).forEach(row => {
+            const student_id = row.cells[1].textContent.toLowerCase();
+            const first_name = row.cells[2].textContent.toLowerCase();
+            const last_name = row.cells[3].textContent.toLowerCase();
+            const row_department = row.cells[4].textContent.toLowerCase();
+            const year_level = row.cells[5].textContent.toLowerCase();
+            const phinmaed_email = row.cells[6].textContent.toLowerCase();
+            const contact_number = row.cells[7].textContent.toLowerCase();
+
+            const matchesSearch = student_id.includes(filter) || first_name.includes(filter) || last_name.includes(filter) || year_level.includes(filter) || phinmaed_email.includes(filter) || contact_number.includes(filter);
+            const matchesDepartment = department === "" || row_department === department;
+
+            if (matchesSearch && matchesDepartment) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    document.getElementById('search2').addEventListener('input', filterTable);
+    document.getElementById('userFilter').addEventListener('change', filterTable);
 
     </script>
 </body>

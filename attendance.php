@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="attendance1.css">
+    <link rel="stylesheet" href="attendance.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
     <title>Attendance Management</title>
@@ -15,8 +15,17 @@
 <div class="container2">
     <div class="search-sort">
         <h1>Attendance</h1>
-        <input type="text" id="search" placeholder="Search...">
-        <button class="filter-btn"><i class='bx bx-filter-alt'></i> Filter</button>
+        <input type="text" id="search1" placeholder="Search...">
+        <select id="departmentFilter" class="filter-attendance">
+            <option value="">All Departments</option>
+            <option value="CITE">CITE</option>
+            <option value="CMA">CMA</option>
+            <option value="CEA">CEA</option>
+            <option value="CAS">CAS</option>
+            <option value="CELA">CELA</option>
+            <option value="CCJE">CCJE</option>
+            <option value="CAHS">CAHS</option>
+        </select>
         <button class="sort-btn"><i class='bx bx-sort'></i> Sort</button>
     </div>
     <button id="startScanner" class="add-btn">Start Scanner</button>
@@ -79,6 +88,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const scannerContainer = document.getElementById('scanner-container1');
     const container = document.querySelector('.container2');
     const scannerSound = document.getElementById('scannerSound');
+    const attendanceTableBody = document.getElementById('attendanceTableBody');
+    const searchInput = document.getElementById('search1');
+    const departmentFilter = document.getElementById('departmentFilter');
+
     let lastScannedCode = null;
     let lastScannedTime = 0;
 
@@ -178,6 +191,32 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
         });
     }
+
+    function filterTable() {
+        const filter = searchInput.value.toLowerCase();
+        const department = departmentFilter.value.toLowerCase();
+        const rows = attendanceTableBody.getElementsByTagName('tr');
+
+        Array.from(rows).forEach(row => {
+            const student_id = row.cells[0].textContent.toLowerCase();
+            const first_name = row.cells[1].textContent.toLowerCase();
+            const last_name = row.cells[2].textContent.toLowerCase();
+            const row_department = row.cells[3].textContent.toLowerCase();
+            const year_level = row.cells[4].textContent.toLowerCase();
+
+            const matchesSearch = student_id.includes(filter) || first_name.includes(filter) || last_name.includes(filter) || year_level.includes(filter);
+            const matchesDepartment = department === "" || row_department === department;
+
+            if (matchesSearch && matchesDepartment) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    searchInput.addEventListener('input', filterTable);
+    departmentFilter.addEventListener('change', filterTable);
 });
 </script>
 

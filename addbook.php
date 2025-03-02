@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="number" name="copies_available" placeholder="Available Copies" required>
             <input type="number" name="total_copies" placeholder="Total Copies" required>
             <select name="department" required>
-                <option value="" disabled selected>Select Department</option>
+                <option value="" disabled selected>Select Genre</option>
                 <option value="CITE">CITE</option>
                 <option value="CMA">CMA</option>
                 <option value="CEA">CEA</option>
@@ -77,13 +77,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <table>
             <thead>
                 <tr>
-                    <th><input type="checkbox" id="selectAll"></th>
                     <th>Title</th>
                     <th>Author</th>
                     <th>Book Code</th>
                     <th>Available Copies</th>
                     <th>Total Copies</th>
-                    <th>Department</th>
+                    <th>Genre</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -93,7 +92,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>
-                                <td><input type='checkbox' class='select-item'></td>
                                 <td>{$row['title']}</td>
                                 <td>{$row['author']}</td>
                                 <td>{$row['isbn']}</td>

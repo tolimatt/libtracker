@@ -14,8 +14,13 @@
 <div class="container3">
     <div class="search-sort">
         <h1>Borrowed Book</h1>
-        <input type="text" id="search" placeholder="Search...">
-        <button class="filter-btn"><i class='bx bx-filter-alt'></i> Filter</button>
+        <input type="text" id="search3" placeholder="Search...">
+        <select id="statusFilter" class="filter-attendance">
+            <option value="">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Returned">Returned</option>
+            <option value="Renewed">Renewed</option>
+        </select>
         <button class="sort-btn"><i class='bx bx-sort'></i> Sort</button>
     </div>
 
@@ -34,7 +39,7 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="borrowedBookTableBody">
                 <?php
                 $query = "SELECT borrowed_books.transaction_id, borrowed_books.book_id, user.last_name, user.first_name, 
                                  borrowed_books.borrowed_date, borrowed_books.return_date, borrowed_books.return_status, borrowed_books.renewal_status 
@@ -107,6 +112,37 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
         });
     }
+
+    function filterTable() {
+        const searchInput = document.getElementById('search3');
+        const statusFilter = document.getElementById('statusFilter');
+        const filter = searchInput.value.toLowerCase();
+        const status = statusFilter.value.toLowerCase();
+        const rows = document.getElementById('borrowedBookTableBody').getElementsByTagName('tr');
+
+        Array.from(rows).forEach(row => {
+            const transaction_id = row.cells[0].textContent.toLowerCase();
+            const book_id = row.cells[1].textContent.toLowerCase();
+            const last_name = row.cells[2].textContent.toLowerCase();
+            const first_name = row.cells[3].textContent.toLowerCase();
+            const borrowed_date = row.cells[4].textContent.toLowerCase();
+            const return_date = row.cells[5].textContent.toLowerCase();
+            const return_status = row.cells[6].textContent.toLowerCase();
+            const renewal_status = row.cells[7].textContent.toLowerCase();
+
+            const matchesSearch = transaction_id.includes(filter) || book_id.includes(filter) || last_name.includes(filter) || first_name.includes(filter) || borrowed_date.includes(filter) || return_date.includes(filter);
+            const matchesStatus = status === "" || return_status === status || renewal_status === status;
+
+            if (matchesSearch && matchesStatus) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    document.getElementById('search3').addEventListener('input', filterTable);
+    document.getElementById('statusFilter').addEventListener('change', filterTable);
 });
 </script>
 

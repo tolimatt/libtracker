@@ -87,3 +87,42 @@ body.dark{
     width: 100%; /* Full width for the long box */
     height: 20rem;
 }
+
+
+.department-boxes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 40px;
+    row-gap: 20px;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.department-box {
+    display: flex;
+    align-items: center;
+    background-color: #83b48a;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    opacity: 0.9;
+    margin-top: 5px;
+}
+
+.department-logo {
+    width: 90px;
+    height: 90px;
+    margin-right: 50px;
+    
+}
+
+.user-count {
+    font-size: 30px;
+    font-weight: bold;
+}
+.department-label {
+    font-size:24px;
+    font-weight: normal;
+    opacity: 1;
+}
