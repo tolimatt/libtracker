@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="borrowedbook.css">
+    <link rel="stylesheet" href="global.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <title>Borrowed Book Management</title>
 </head>
@@ -21,21 +22,21 @@
             <option value="Returned">Returned</option>
             <option value="Renewed">Renewed</option>
         </select>
-        <button class="sort-btn"><i class='bx bx-sort'></i> Sort</button>
+        
     </div>
 
     <div class="table-container4">
         <table>
             <thead>
                 <tr>
-                    <th>Transaction ID</th>
-                    <th>Book ID</th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Borrowed Date</th>
-                    <th>Return Date</th>
-                    <th>Return Status</th>
-                    <th>Renewal Status</th>
+                    <th>Transaction ID<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Book ID<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Last Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th>First Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Borrowed Date<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Return Date<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Return Status<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Renewal Status<i class='bx bx-sort sort-icon'></i></th>
                     <th>Actions</th>
                 </tr>
             </thead>

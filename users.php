@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $new_status = $row['status'] == 1 ? 0 : 1;
             $conn->query("UPDATE user SET status = $new_status WHERE user_id = $user_id");
         }
-        
     }
 
     if (isset($_POST['update_user'])) {
@@ -23,11 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $contact_number = $_POST['contact_number'];
 
         if ($conn->query("UPDATE user SET first_name = '$first_name', last_name = '$last_name', department = '$department', year_level = '$year_level', phinmaed_email = '$phinmaed_email', contact_number = '$contact_number' WHERE user_id = $user_id") === TRUE) {
-            
+            // User updated successfully
         } else {
             echo 'Error: ' . $conn->error;
         }
-        
     }
 }
 ?>
@@ -37,7 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="users.css">
+    <link rel="stylesheet" href="user.css">
+    <link rel="stylesheet" href="global.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <title>User Management</title>
 </head>
@@ -56,20 +55,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <option value="CCJE">CCJE</option>
             <option value="CAHS">CAHS</option>
         </select>
-        <button class="sort-btn"><i class='bx bx-sort'></i> Sort</button>
     </div>
     
     <div class="table-container1">
         <table>
             <thead>
                 <tr>
-                    <th>Student Id</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Department</th>
-                    <th>Year Level</th>
-                    <th>Phinma Email</th>
-                    <th>Contact Number</th>
+                    <th>Student Id<i class='bx bx-sort sort-icon'></i></th>
+                    <th>First Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Last Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Department<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Year Level<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Phinma Email<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Contact Number<i class='bx bx-sort sort-icon'></i></th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -81,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     while ($row = $result->fetch_assoc()) {
                         $status = isset($row['status']) && $row['status'] == 1 ? 'Active' : 'Deactivated';
                         $toggleStatus = $row['status'] == 1 ? 'Deactivate' : 'Activate';
+                        $toggleClass = $row['status'] == 1 ? 'deactivate-btn' : 'activate-btn';
                         $toggleIcon = $row['status'] == 1 ? 'bx-user-x' : 'bx-user-check';
                         echo "<tr>
                                 <td>{$row['student_id']}</td>
@@ -94,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <td>
                                     <form method='POST' class='toggle-status-form'>
                                         <input type='hidden' name='user_id' value='{$row['user_id']}'>
-                                        <button type='submit' name='toggle_status' class='toggle-status-btn' onclick='return confirmToggleStatus(event, \"{$toggleStatus}\")'><i class='bx {$toggleIcon}'></i> {$toggleStatus}</button>
+                                        <button type='submit' name='toggle_status' class='toggle-status-btn {$toggleClass}' onclick='return confirmToggleStatus(event, \"{$toggleStatus}\")'><i class='bx {$toggleIcon}'></i> {$toggleStatus}</button>
                                         <button type='button' class='edit-btn' onclick='editUser({$row['user_id']})'><i class='bx bx-edit'></i></button>
                                     </form>
                                 </td>
@@ -107,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </tbody>
         </table>
     </div>
-
 
     <!-- Edit User Sliding Form -->
     <div id="editUserContainer" class="edit-user-container">
@@ -124,11 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <option value="Junior (3rd Year)">Junior (3rd Year)</option>
                 <option value="Senior (4th Year)">Senior (4th Year)</option>
                 <option value="Super Senior (5th Year)">Super Senior (5th Year)</option>
-                </select>   
-
-
-
-
+            </select>
             <input type="email" name="phinmaed_email" id="editEmail" required>
             <input type="text" name="contact_number" id="editContactNumber" required>
             <button type="submit" name="update_user" class="update-btn">Update</button>
@@ -136,12 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
 
-
-
-
-
     <!-- SCRIPT -->
-     
     <script>
     function confirmAction() {
         return confirm('Are you sure you want to perform this action?');
@@ -177,7 +166,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         document.querySelector('.container4').classList.remove('shifted');
     }
 
-
     function filterTable() {
         const searchInput = document.getElementById('search2');
         const userFilter = document.getElementById('userFilter');
@@ -207,7 +195,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     document.getElementById('search2').addEventListener('input', filterTable);
     document.getElementById('userFilter').addEventListener('change', filterTable);
-
     </script>
 </body>
 </html>

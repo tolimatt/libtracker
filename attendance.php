@@ -5,7 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="attendance.css">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="attendance1.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
     <title>Attendance Management</title>
@@ -26,7 +27,6 @@
             <option value="CCJE">CCJE</option>
             <option value="CAHS">CAHS</option>
         </select>
-        <button class="sort-btn"><i class='bx bx-sort'></i> Sort</button>
     </div>
     <button id="startScanner" class="add-btn">Start Scanner</button>
     
@@ -39,12 +39,12 @@
         <table>
             <thead>
                 <tr>
-                    <th>Student Id</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Department</th>
-                    <th>Year Level</th>
-                    <th>Entry Time</th>
+                    <th>Student Id<i class='bx bx-sort sort-icon'></i></th>
+                    <th>First Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Last Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Department<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Year Level<i class='bx bx-sort sort-icon'></i></th>
+                    <th>Entry Time<i class='bx bx-sort sort-icon'></i></th>
                 </tr>
             </thead>
             <tbody id="attendanceTableBody">

@@ -5,7 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="home1.css">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="home.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <title>Dashboard</title>
 </head>
@@ -21,7 +22,7 @@
         <h2>USER CREATED BY EACH DEPARTMENT</h2>
         <div class="department-boxes">
             <?php
-            $departments = ['CAHS', 'CCJE', 'CEA', 'CELA', 'CITE', 'CMA', 'SHS'];
+            $departments = ['CAHS', 'CCJE', 'CEA', 'CELA', 'CITE', 'CMA', 'COL','SHS'];
             foreach ($departments as $department) {
                 $query = "SELECT COUNT(*) as user_count FROM user WHERE department = '$department'";
                 $result = $conn->query($query);

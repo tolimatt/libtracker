@@ -1,0 +1,93 @@
+
+.container4.shifted {
+    margin-right: 300px; /* Adjust margin to match scanner width */
+}
+
+.table-container1 {
+    width: 100%;
+    height: 94%;
+    overflow-y: auto; /* Enable vertical scrolling */    
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+
+}
+
+
+/* Edit User Sliding Form */
+.edit-user-container {
+    position: absolute;
+    top: 0;
+    right: -300px; /* Initially hidden off-screen */
+    width: 300px; /* Adjust width as needed */
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.5s ease; /* Smooth sliding effect */
+    padding: 20px;
+    z-index: 1000; /* Ensure it appears above other content */
+    display: flex;
+    flex-direction: column; /* Ensure form elements are stacked vertically */
+}
+
+.edit-user-container.active {
+    right: 0; /* Slide in from the right */
+}
+
+/* Close button */
+.close-btn {
+    align-self: flex-end;
+    cursor: pointer;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Form styles */
+.edit-user-container h1
+ {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.edit-user-container form{
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-user-container form input,
+.edit-user-container form select,
+.edit-user-container form button {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.edit-user-container form button {
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-user-container form button:hover {
+    background: #218838;
+}
+
+.toggle-status-btn {
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+}
+
+.toggle-status-btn.deactivate-btn {
+    color: red;
+}
+
+.toggle-status-btn.activate-btn {
+    color: green;
+}

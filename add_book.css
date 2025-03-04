@@ -1,0 +1,112 @@
+
+/* Add Book Form Styling */
+.addbookform-container,.edit-book-container {
+    position: absolute;
+    top: 0;
+    right: -300px; /* Initially hidden off-screen */
+    width: 300px; /* Adjust width as needed */
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.5s ease; /* Smooth sliding effect */
+    padding: 20px;
+    z-index: 1000; /* Ensure it appears above other content */
+    display: flex;
+    flex-direction: column; /* Ensure form elements are stacked vertically */
+}
+
+.addbookform-container.active, .edit-book-container.active {
+    right: 0; /* Slide in from the right */
+}
+
+.addbookform-container h1 {
+    margin-bottom: 20px;
+}
+
+.addbookform-container input,
+.addbookform-container select,
+.addbookform-container button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.addbookform-container button {
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.addbookform-container button:hover {
+    background: #218838;
+}
+
+
+
+.table-container {
+    width: 100%;
+    height: 87.5%;
+    overflow-y: auto;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+
+
+
+/* Close button */
+.close-btn {
+    align-self: flex-end;
+    cursor: pointer;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Form styles */
+.edit-book-container h1
+ {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.edit-book-container form{
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-book-container form input,
+.edit-book-container form select,
+.edit-book-container form button {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.edit-book-container form button {
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-book-container form button:hover {
+    background: #218838;
+}
+
+
+
+.container.shifted {
+    margin-right: 300px; /* Adjust margin to match form width */
+}
+
+#container5.shifted{
+    margin-right: 300px;
+}

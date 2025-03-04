@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --body-color: #f5f5f5;
+    --sidebar-color: linear-gradient(180deg, #1E5128, #000000);
+    --primary-color: #549462;
+    --primary-color-light: #f5f5f5;
+    --toggle-color: #9cb69b;
+    --text-color: #9b9b9b;
+    --table-text-color: #000000;
+    --success-color: #4CAF50;
+    --hover-success-color: #388E3C;
+    --danger-color: #D32F2F;
+    --danger-hover-color: #B71C1C;
+    --edit-button-color: #07c900; 
+    --tran-02: all 0.2s ease;
+    --tran-05: all 0.5s ease;
+    --font-size-base: 1rem; /* Base font size */
+    --spacing-base: 1rem; /* Base spacing */
+}
+
+body.dark {
+    --body-color: #121212; /* Deep blackish background */
+    --sidebar-color: #1E1E1E; /* Darker sidebar */
+    --primary-color: #2A2A2A; /* Card or container background */
+    --primary-color-light: #1E1E1E; /* Light variant of primary */
+    --table-text-color: #ffffff;
+    --toggle-color: #6FCF97; /* Soft green toggle for contrast */
+    --text-color: #E0E0E0; /* Light gray for better readability */
+    --success-color: #353535; /* Keep as is or slightly brighten */
+    --hover-success-color: #66BB6A; /* Softer hover */
+    --danger-color: #E57373; /* Softer red */
+    --danger-hover-color: #ff0400; /* Brighter hover red */
+    --edit-button-color: #09ff00; /* Softer red */
+
+
+}
+
+
+body {
+    background-color: #9BCF99;
+    transition: var(--tran-05);
+    overflow-x: hidden;
+    font-size: var(--font-size-base);
+}
+
+/* Common button styles */
+.add-btn, .sort-btn, .filter-btn {
+    padding: calc(var(--spacing-base) * 0.625);
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    font-size: calc(var(--font-size-base) * 1);
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing-base) * 0.3125);
+    transition: var(--tran-02);
+}
+
+.add-btn {
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    width: 20%;
+    margin-bottom: calc(var(--spacing-base) * 0.625);
+    box-shadow: 5px 5px 10px 2px rgba(0,0,0,0.5);
+}
+
+body.dark .add-btn {
+    background-color: var(--success-color);
+}
+
+.add-btn:hover {
+    background-color: var(--hover-success-color);
+}
+
+.filter-btn {
+    background-color: white;
+    border: 1px solid var(--success-color);
+    width: 30%;
+}
+
+.filter-attendance {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #4CAF50;
+    padding: calc(var(--spacing-base) * 0.625);
+    cursor: pointer;
+    border-radius: 0.3125rem;
+    font-size: calc(var(--font-size-base) * 1);
+    gap: calc(var(--spacing-base) * 0.3125);
+    width: 30%;
+}
+
+.sort-btn {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    background-color: #83b48a;
+    border: 1px solid #ffffff;
+    padding: calc(var(--spacing-base) * 0.625);
+    cursor: pointer;
+    border-radius: 0.3125rem;
+    font-size: calc(var(--font-size-base) * 1);
+    gap: calc(var(--spacing-base) * 0.3125);
+    width: 30%;
+}
+
+.filter-btn:hover, .sort-btn:hover {
+    background-color: var(--success-color);
+    color: white;
+}
+
+/* Danger (delete) button */
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--danger-color);
+    font-size: calc(var(--font-size-base) * 1.125);
+}
+
+.delete-btn:hover {
+    color: var(--danger-hover-color);
+    font-size: 1.2rem;
+}
+
+.edit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--edit-button-color);
+    font-size: calc(var(--font-size-base) * 1.125);
+}
+
+
+.edit-btn:hover {
+    color: var(--hover-success-color);
+    font-size: 1.2rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: calc(var(--spacing-base) * 0.625);
+}
+
+thead {
+    background-color: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+body.dark thead {
+    background-color: var(--primary-color);
+}
+
+thead th, tbody td {
+    padding: calc(var(--spacing-base) * 0.625);
+    text-align: center;
+}
+thead th {
+    cursor: pointer;
+}
+
+body.dark thead th, tbody td {
+    color: var(--table-text-color);
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+body.dark tbody tr:nth-child(even) {
+    background-color: #0e0e0e;
+}
+
+/* Search Sort Header */
+.search-sort {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0.625rem;
+}
+
+.search-sort h1 {
+    color: white;
+    width: 100%;
+    font-size: calc(var(--font-size-base) * 2);
+}
+
+.search-sort input {
+    width: 50%;
+    padding: calc(var(--spacing-base) * 0.625);
+    border: 1px solid #ccc;
+    border-radius: 0.3125rem;
+    margin-right: calc(var(--spacing-base) * 1.25);
+    display: flex;
+}
+
+/* Common container styling */
+.container, .container2, .container3, .container4 {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    padding: calc(var(--spacing-base) * 1.25);
+    background-color: var(--primary-color);
+    border-radius: 0.625rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0.9;
+    transition: var(--tran-05) ease;
+}
+
+body.dark .container, .container2, .container3, .container4 {
+    background: var(--primary-color);
+}
+
+
+body.dark .table-container5,.table-container,.table-container1,.table-container3,.table-container4 {
+    background: var(--body-color);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .search-sort h1 {
+        font-size: calc(var(--font-size-base) * 1.5);
+    }
+
+    .search-sort input {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: calc(var(--spacing-base) * 0.625);
+    }
+
+    .add-btn, .sort-btn, .filter-btn {
+        width: 100%;
+    }
+}
+
+.sort-icon {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Show the sort icon when the th is hovered */
+th:hover .sort-icon,
+th:active .sort-icon {
+    opacity: 1;
+}
+
+
+.action-buttons {
+    display: flex;
+    gap: 5px; /* space between buttons */
+    align-items: center;
+    justify-content: center;
+}
+
+.action-buttons form,
+.action-buttons button {
+    margin: 0; /* reset margin if needed */
+}
+
+.action-buttons button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
