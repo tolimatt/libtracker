@@ -31,7 +31,9 @@
     <button id="startScanner" class="add-btn">Start Scanner</button>
     
     <div id="scanner-container1">
-        <div id="scanner"></div>
+        <div id="scanner">
+            <h3 class="barcode_scanner">Barcode Scanner</h3>
+        </div>
         <button id="stopScanner" class="add-btn">Stop Scanner</button>
     </div>
 
@@ -39,12 +41,12 @@
         <table>
             <thead>
                 <tr>
-                    <th>Student Id<i class='bx bx-sort sort-icon'></i></th>
-                    <th>First Name<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Last Name<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Department<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Year Level<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Entry Time<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column2="student_id" data-order="asc">Student Id<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column2="first_name" data-order="asc">First Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column2="last_name" data-order="asc">Last Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column2="department" data-order="asc">Department<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column2="year_level" data-order="asc">Year Level<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column2="entry_time" data-order="asc">Entry Time<i class='bx bx-sort sort-icon'></i></th>
                 </tr>
             </thead>
             <tbody id="attendanceTableBody">
@@ -91,6 +93,49 @@ document.addEventListener('DOMContentLoaded', function() {
     const attendanceTableBody = document.getElementById('attendanceTableBody');
     const searchInput = document.getElementById('search1');
     const departmentFilter = document.getElementById('departmentFilter');
+    const attendance_tableHeaders = document.querySelectorAll('th[data-column2]');
+
+    attendance_tableHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const column = header.getAttribute('data-column2');
+            let order = header.getAttribute('data-order');
+
+            order = order === 'asc' ? 'desc' : 'asc';
+            header.setAttribute('data-order', order);
+
+            attendance_sortTable(column, order);
+        });
+    });
+
+    function attendance_sortTable(column, order) {
+        const rows = Array.from(attendanceTableBody.querySelectorAll('tr'));
+        const columnIndex = attendance_getColumnIndex(column);
+
+        rows.sort((a, b) => {
+            const cellA = a.cells[columnIndex].textContent.trim().toLowerCase();
+            const cellB = b.cells[columnIndex].textContent.trim().toLowerCase();
+
+            if (order === 'asc') {
+                return cellA.localeCompare(cellB);
+            } else {
+                return cellB.localeCompare(cellA);
+            }
+        });
+
+        rows.forEach(row => attendanceTableBody.appendChild(row));
+    }
+
+    function attendance_getColumnIndex(column) {
+        const columnOrder = {
+            'student_id': 0,
+            'first_name': 1,
+            'last_name': 2,
+            'department': 3,
+            'year_level': 4,
+            'entry_time': 5,
+        };
+        return columnOrder[column];
+    }
 
     let lastScannedCode = null;
     let lastScannedTime = 0;
@@ -120,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
             },
             decoder: {
-                readers: ["code_128_reader"] // Specify the barcode type you want to scan
+                readers: ["code_128_reader"]
             },
         }, function(err) {
             if (err) {
@@ -143,21 +188,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const code = data.codeResult.code;
         const currentTime = new Date().getTime();
 
-        if (code !== lastScannedCode || (currentTime - lastScannedTime) > 3000) { // 3 seconds debounce
+        if (code !== lastScannedCode || (currentTime - lastScannedTime) > 3000) {
             lastScannedCode = code;
             lastScannedTime = currentTime;
             console.log("Barcode detected and processed : [" + code + "]", data);
-            // Play the scanner sound
             scannerSound.play().catch(error => {
                 console.error('Error playing sound:', error);
             });
-            // Process the scanned barcode data (e.g., mark attendance)
             markAttendance(code);
         }
     }
 
     function markAttendance(studentId) {
-        // Send the scanned student ID to the server to mark attendance
         fetch('mark_attendance.php', {
             method: 'POST',
             headers: {
@@ -168,11 +210,9 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Play the scanner sound again to confirm attendance
                 scannerSound.play().catch(error => {
                     console.error('Error playing sound:', error);
                 });
-                // Update the attendance table without reloading the page
                 const newRow = document.createElement('tr');
                 newRow.innerHTML = `
                     <td>${data.student_id}</td>
@@ -182,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td>${data.year_level}</td>
                     <td>${data.entry_time}</td>
                 `;
-                document.getElementById('attendanceTableBody').prepend(newRow);
+                attendanceTableBody.prepend(newRow);
             } else {
                 alert('Error marking attendance: ' + data.message);
             }
@@ -192,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function filterTable() {
+    function attendance_filterTable() {
         const filter = searchInput.value.toLowerCase();
         const department = departmentFilter.value.toLowerCase();
         const rows = attendanceTableBody.getElementsByTagName('tr');
@@ -215,9 +255,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    searchInput.addEventListener('input', filterTable);
-    departmentFilter.addEventListener('change', filterTable);
+    searchInput.addEventListener('input', attendance_filterTable);
+    departmentFilter.addEventListener('change', attendance_filterTable);
+
 });
+
 </script>
 
 </body>

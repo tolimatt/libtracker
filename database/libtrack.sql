@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2025 at 01:02 AM
+-- Generation Time: Mar 05, 2025 at 01:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,15 +32,17 @@ CREATE TABLE `admins` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `verification_code` int(6) DEFAULT NULL,
+  `verification_code_expiry` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admins`
 --
 
-INSERT INTO `admins` (`admin_id`, `username`, `password`, `email`, `created_at`) VALUES
-(2, 'admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', '', '2025-02-01 12:49:31');
+INSERT INTO `admins` (`admin_id`, `username`, `password`, `email`, `created_at`, `verification_code`, `verification_code_expiry`) VALUES
+(2, 'admin', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'esperanzagabrieljose@gmail.com', '2025-02-01 12:49:31', 630831, '2025-03-05 11:18:08');
 
 -- --------------------------------------------------------
 
@@ -73,7 +75,14 @@ INSERT INTO `attendance` (`id`, `student_id`, `entry_time`, `exit_time`) VALUES
 (149, '03-2324-012345', '2025-02-26 14:51:16', NULL),
 (151, '03-2324-012345', '2025-02-26 14:51:21', NULL),
 (152, '03-2324-012345', '2025-02-26 14:51:38', NULL),
-(153, '03-2324-012345', '2025-02-26 14:51:42', NULL);
+(153, '03-2324-012345', '2025-02-26 14:51:42', NULL),
+(154, '2425-049858', '2025-02-28 11:04:17', NULL),
+(155, '2425-049858', '2025-02-28 11:04:55', NULL),
+(156, '2425-049858', '2025-02-28 11:05:24', NULL),
+(157, '2425-049858', '2025-02-28 11:06:09', NULL),
+(160, '03-2324-032803', '2025-02-28 11:06:49', NULL),
+(161, '03-2324-032803', '2025-02-28 11:06:57', NULL),
+(164, '03-2324-032803', '2025-03-05 14:43:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -89,6 +98,8 @@ CREATE TABLE `books` (
   `copies_available` int(11) NOT NULL COMMENT 'Number of available copies.',
   `total_copies` int(11) NOT NULL COMMENT 'Total number of copies.',
   `department` varchar(255) NOT NULL COMMENT 'Department where it belong',
+  `image_url` varchar(255) NOT NULL,
+  `pdf_url` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'Date book was added.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -96,10 +107,11 @@ CREATE TABLE `books` (
 -- Dumping data for table `books`
 --
 
-INSERT INTO `books` (`book_id`, `title`, `author`, `isbn`, `copies_available`, `total_copies`, `department`, `created_at`) VALUES
-(37, 'dayabase the book', 'Dayanara Lopez', '1234', 1, 1, 'CITE', '2025-02-20 01:21:32'),
-(47, 'Zoology, 12th Edition ', 'N/a', '0123', 99, 99, 'CAHS', '2025-02-25 07:17:09'),
-(48, 'Zoology, 12th Edition ', 'N/a', '0123', 99, 99, 'CAHS', '2025-02-25 10:34:03');
+INSERT INTO `books` (`book_id`, `title`, `author`, `isbn`, `copies_available`, `total_copies`, `department`, `image_url`, `pdf_url`, `created_at`) VALUES
+(47, 'Zoology, 12th Edition ', 'N/a', '0123', 99, 99, 'CAHS', '', '', '2025-02-25 07:17:09'),
+(51, 'Anatomy And Physiology', 'Test', '123', 123, 123, 'CAHS', '', '', '2025-03-04 05:11:22'),
+(68, 'Abnormal Psychology', 'Susan Nolen-hoeksema', '012', 99, 99, 'CAHS', 'book_images/1.png', 'book_pdf/Abnormal Psychology - Susan Nolen-Hoeksema - 2020.pdf', '2025-03-05 09:45:45'),
+(69, 'Case Anaylysis For Abnormal Psychology 2nd Edition', 'Randall E. Osborne, Joan Esterline Lafuze And David V. Perkins', '013', 99, 99, 'CAHS', 'book_images/5.png', 'book_pdf/Case Analyses for Abnormal Psychology_ Learning to Look Beyond the Symptoms ( PDFDrive ).pdf', '2025-03-05 09:58:04');
 
 -- --------------------------------------------------------
 
@@ -123,7 +135,22 @@ CREATE TABLE `borrowed_books` (
 --
 
 INSERT INTO `borrowed_books` (`transaction_id`, `book_id`, `user_id`, `borrowed_date`, `due_date`, `return_date`, `return_status`, `renewal_status`) VALUES
-(3, 37, 6, '2025-02-19', '2025-02-28', '2025-02-22', 'Returned', '');
+(5, 47, 9, '2025-03-02', '2025-03-09', '2025-03-05', 'Returned', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `status` enum('unread','read') DEFAULT 'unread',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -150,9 +177,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `student_id`, `first_name`, `last_name`, `password`, `phinmaed_email`, `year_level`, `department`, `created_at`, `contact_number`, `status`) VALUES
-(6, '03-2324-032803', 'Gabriel Jose', 'Esperanza', 'Kirsteen12345', 'gajo.esperanza.up@phinmaed.com', 'Sophomore (2nd Year)', 'BS Information Technology', '2025-02-22 07:46:21', 9705095844, 1),
-(7, '03-2324-032903', 'Kirsteen', 'Orduna', 'Gabriel12345', 'kisa.orduna.up@phinmaed.com', 'Sophomore (2nd Year)', 'BS Nursing', '2025-02-22 07:32:51', 9959824437, 1),
-(8, '03-2324-012345', 'Joshua', 'Velasco', 'Joshua123456', 'joshuavelasco@gmail.com', 'Sophomore (2nd Year)', 'BS Nursing', '2025-02-26 06:49:23', 9123456789, 1);
+(6, '03-2324-032803', 'Gabriel Jose', 'Esperanza', 'Kirsteen12345', 'gajo.esperanza.up@phinmaed.com', 'Sophomore (2nd Year)', 'CITE', '2025-03-05 07:15:01', 9705095844, 1),
+(7, '03-2324-032903', 'Kirsteen', 'Orduna', 'Gabriel12345', 'kisa.orduna.up@phinmaed.com', 'Sophomore (2nd Year)', 'CAHS', '2025-03-05 07:14:56', 9959824437, 1),
+(8, '03-2324-012345', 'Joshua', 'Velasco', 'Joshua123456', 'joshuavelasco@gmail.com', 'Sophomore (2nd Year)', 'CAHS', '2025-03-05 07:14:51', 9123456789, 1),
+(9, '2425-049858', 'elijah', 'vinluan', 'Vinluan12345', 'elca.vinluan.up@phinmaed.com', 'Sophomore (2nd Year)', 'CITE', '2025-03-05 07:33:41', 9123456789, 1);
 
 --
 -- Indexes for dumped tables
@@ -188,6 +216,12 @@ ALTER TABLE `borrowed_books`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -208,25 +242,31 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
 
 --
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for each book.', AUTO_INCREMENT=49;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for each book.', AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `borrowed_books`
 --
 ALTER TABLE `borrowed_books`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for each user.', AUTO_INCREMENT=9;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID for each user.', AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables

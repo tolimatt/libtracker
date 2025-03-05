@@ -1,12 +1,16 @@
 <?php include 'db_config.php'; ?>
 
 <?php
+$imageFolder = "C:/xampp/htdocs/LibTrack/libtracker/book_images/";
+$pdfFolder = "C:/xampp/htdocs/LibTrack/libtracker/book_pdf/";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["delete_book"])) {
         $book_id = $_POST["book_id"];
         $delete_sql = "DELETE FROM books WHERE book_id = $book_id";
         if ($conn->query($delete_sql) === TRUE) {
-            // Book deleted successfully
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
         } else {
             echo "<script>alert('Error deleting book: " . $conn->error . "');</script>";
         }
@@ -18,10 +22,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $copies_available = $_POST["copies_available"];
         $total_copies = $_POST["total_copies"];
         $department = $_POST["department"];
+        $image_url = $_POST["image_url"];
+        $pdf_url = $_POST["pdf_url"];
 
-        $update_sql = "UPDATE books SET title = '$title', author = '$author', isbn = '$isbn', copies_available = '$copies_available', total_copies = '$total_copies', department = '$department' WHERE book_id = $book_id";
+        // Handle file uploads
+        if (isset($_FILES['book_cover']) && $_FILES['book_cover']['error'] == 0) {
+            $imageName = basename($_FILES['book_cover']['name']);
+            $image_url = 'http://192.168.1.248/LibTrack/libtracker/book_images/' . $imageName;
+            move_uploaded_file($_FILES['book_cover']['tmp_name'], $imageFolder . $imageName);
+        }
+        
+        if (isset($_FILES['book_pdf']) && $_FILES['book_pdf']['error'] == 0) {
+            $pdfName = basename($_FILES['book_pdf']['name']);
+            $pdf_url = 'http://192.168.1.248/LibTrack/libtracker/book_pdf/' . $pdfName;
+            move_uploaded_file($_FILES['book_pdf']['tmp_name'], $pdfFolder . $pdfName);
+        }
+
+        $update_sql = "UPDATE books SET title = '$title', author = '$author', isbn = '$isbn', copies_available = '$copies_available', total_copies = '$total_copies', department = '$department', image_url = '$image_url', pdf_url = '$pdf_url' WHERE book_id = $book_id";
         if ($conn->query($update_sql) === TRUE) {
-            // Book updated successfully
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
         } else {
             echo "<script>alert('Error updating book: " . $conn->error . "');</script>";
         }
@@ -33,12 +53,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $copies_available = $_POST['copies_available'];
             $total_copies = $_POST['total_copies'];
             $department = $_POST['department'];
+            $image_url = '';
+            $pdf_url = '';
 
-            $sql = "INSERT INTO books (title, author, isbn, copies_available, total_copies, department) 
-                    VALUES ('$title', '$author', '$isbn', '$copies_available', '$total_copies', '$department')";
+            // Handle file uploads
+            if (isset($_FILES['book_cover']) && $_FILES['book_cover']['error'] == 0) {
+                $imageName = basename($_FILES['book_cover']['name']);
+                $image_url = 'http://192.168.1.248/LibTrack/libtracker/book_images/' . $imageName;
+                move_uploaded_file($_FILES['book_cover']['tmp_name'], $imageFolder . $imageName);
+            }
+            
+            if (isset($_FILES['book_pdf']) && $_FILES['book_pdf']['error'] == 0) {
+                $pdfName = basename($_FILES['book_pdf']['name']);
+                $pdf_url = 'http://192.168.1.248/LibTrack/libtracker/book_pdf/' . $pdfName;
+                move_uploaded_file($_FILES['book_pdf']['tmp_name'], $pdfFolder . $pdfName);
+            }
+
+            $sql = "INSERT INTO books (title, author, isbn, copies_available, total_copies, department, image_url, pdf_url) 
+                    VALUES ('$title', '$author', '$isbn', '$copies_available', '$total_copies', '$department', '$image_url', '$pdf_url')";
 
             if ($conn->query($sql) === TRUE) {
-                // Book added successfully
+                header("Location: " . $_SERVER['PHP_SELF']);
+                exit();
             } else {
                 echo "<script>alert('Error: " . $conn->error . "');</script>";
             }
@@ -61,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container" id="container5">
     <div class="search-sort">
         <h1>Book Management</h1>
-        <input type="text" id="search" placeholder="Search...">
+        <input type="text" id="search" placeholder="Search..." >
         <select id="bookmanagementFilter" class="filter-attendance">
             <option value="">All Departments</option>
             <option value="CITE">CITE</option>
@@ -77,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div id="addBookForm" class="addbookform-container">
         <h1>Add Book</h1>
-        <form action="" method="POST" class="modal-content" id="bookForm">
+        <form action="" method="POST" class="modal-content" id="bookForm" enctype="multipart/form-data">
             <input type="text" name="title" id="title" placeholder="Book Title" required>
             <input type="text" name="author" id="author" placeholder="Author" required>
             <input type="number" name="isbn" placeholder="Book Code" required>
@@ -93,6 +129,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="CCJE">CCJE</option>
                 <option value="CAHS">CAHS</option>
             </select>
+            <input type="file" name="book_cover" id="book_cover" accept="image/*" required>
+            <input type="file" name="book_pdf" id="book_pdf" accept="application/pdf">
             <button type="submit">Add Book</button>
             <button type="button" id="closeFormButton">Cancel</button>
         </form>
@@ -100,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div id="editBookContainer" class="edit-book-container">
         <h1>Edit Book</h1>
-        <form id="editBookForm" method="POST">
+        <form id="editBookForm" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="book_id" id="editBookId">
             <input type="text" name="title" id="editTitle" placeholder="Book Title" required>
             <input type="text" name="author" id="editAuthor" placeholder="Author" required>
@@ -117,6 +155,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="CCJE">CCJE</option>
                 <option value="CAHS">CAHS</option>
             </select>
+            <input type="file" name="book_cover" id="editBookCover" accept="image/*">
+            <input type="file" name="book_pdf" id="editBookPdf" accept="application/pdf">
             <button type="submit" name="update_book" class="update-btn">Update</button>
             <button type="button" id="closeEditFormButton" onclick="closeEditForm()">Cancel</button>
         </form>
@@ -126,12 +166,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <table>
             <thead>
                 <tr>
+                    <th>Book Cover</th>
                     <th data-column="title">Title<i class='bx bx-sort sort-icon'></i></th>
                     <th data-column="author">Author<i class='bx bx-sort sort-icon'></i></th>
                     <th data-column="isbn">Book Code<i class='bx bx-sort sort-icon'></i></th>
                     <th data-column="copies_available">Available Copies<i class='bx bx-sort sort-icon'></i></th>
                     <th data-column="total_copies">Total Copies<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column="department">Genre<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column="department">Genre</th>
+                    <th>Book PDF</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -141,25 +183,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>
+                                <td><img src='{$row['image_url']}' alt='{$row['title']}' class='book-cover'></td>
                                 <td>{$row['title']}</td>
                                 <td>{$row['author']}</td>
                                 <td>{$row['isbn']}</td>
                                 <td>{$row['copies_available']}</td>
                                 <td>{$row['total_copies']}</td>
                                 <td>{$row['department']}</td>
+                                <td><a href='{$row['pdf_url']}' target='_blank'>View PDF</a></td>
                                 <td>
-                                     <div class='action-buttons'>
+                                    <div class='action-buttons'>
                                         <form method='POST' onsubmit='return confirmDelete()'>
-                                        <input type='hidden' name='book_id' value='{$row['book_id']}'>
-                                        <button type='submit' name='delete_book' class='delete-btn'><i class='bx bx-trash'></i></button>
-                                    </form>
-                                    <button type='button' class='edit-btn' onclick='editBook({$row['book_id']})'><i class='bx bx-edit'></i></button>
-                                </div>
+                                            <input type='hidden' name='book_id' value='{$row['book_id']}'>
+                                            <button type='submit' name='delete_book' class='delete-btn'><i class='bx bx-trash'></i></button>
+                                        </form>
+                                        <button type='button' class='edit-btn' onclick='editBook({$row['book_id']})'><i class='bx bx-edit'></i></button>
+                                    </div>
                                 </td>
                               </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='8'>No books added yet.</td></tr>";
+                    echo "<tr><td colspan='9'>No books added yet.</td></tr>";
                 }
                 ?>
             </tbody>
@@ -183,12 +227,15 @@ function editBook(bookId) {
             document.getElementById('editCopiesAvailable').value = data.copies_available;
             document.getElementById('editTotalCopies').value = data.total_copies;
             document.getElementById('editDepartment').value = data.department;
+
+            // Set the image and PDF URLs
+            document.getElementById('editBookCover').value = '';
+            document.getElementById('editBookPdf').value = '';
+
             document.getElementById('editBookContainer').classList.add('active');
             document.querySelector('.container').classList.add('shifted');
         });
 }
-
-
 
 document.addEventListener('DOMContentLoaded', function() {
     const openFormButton = document.getElementById('openFormButton');
@@ -201,17 +248,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const bookForm = document.getElementById('bookForm');
     const tableHeaders = document.querySelectorAll('th[data-column]');
     const closeEditFormButton = document.getElementById('closeEditFormButton');
+    const bookCovers = document.querySelectorAll('.book-cover');
+
+    bookCovers.forEach(cover => {
+    cover.addEventListener('click', () => {
+        // Close any other active cover
+        bookCovers.forEach(otherCover => {
+            if (otherCover !== cover) {
+                otherCover.classList.remove('active');
+            }
+        });
+        // Toggle the clicked cover
+        cover.classList.toggle('active');
+    });
+});
 
     openFormButton.addEventListener('click', function() {
-    addBookForm.classList.add('active');
-    container.classList.add('shifted'); 
+        addBookForm.classList.add('active');
+        container.classList.add('shifted'); 
     });
 
     function closeEditForm() {
-    document.getElementById('editBookContainer').classList.remove('active');
-    document.querySelector('.container').classList.remove('shifted');
+        document.getElementById('editBookContainer').classList.remove('active');
+        document.querySelector('.container').classList.remove('shifted');
     }
-    
 
     closeFormButton.addEventListener('click', function() {
         addBookForm.classList.remove('active');
@@ -238,9 +298,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const rows = bookTableBody.getElementsByTagName('tr');
 
         Array.from(rows).forEach(row => {
-            const title = row.cells[0].textContent.toLowerCase();
-            const author = row.cells[1].textContent.toLowerCase();
-            const isbn = row.cells[2].textContent.toLowerCase();
+            const title = row.cells[1].textContent.toLowerCase();
+            const author = row.cells[2].textContent.toLowerCase();
+            const isbn = row.cells[3].textContent.toLowerCase();
             const department = row.cells[5].textContent.toLowerCase();
 
             if (title.includes(filter) || author.includes(filter) || isbn.includes(filter) || department.includes(filter)) {
@@ -292,12 +352,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getColumnIndex(column) {
         switch (column) {
-            case 'title': return 1;
-            case 'author': return 2;
-            case 'isbn': return 3;
-            case 'copies_available': return 4;
-            case 'total_copies': return 5;
-            case 'department': return 6;
+            case 'title': return 2;
+            case 'author': return 3;
+            case 'isbn': return 4;
+            case 'copies_available': return 5;
+            case 'total_copies': return 6;
+            case 'department': return 7;
             default: return 1;
         }
     }

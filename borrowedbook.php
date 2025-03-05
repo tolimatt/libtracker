@@ -29,14 +29,14 @@
         <table>
             <thead>
                 <tr>
-                    <th>Transaction ID<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Book ID<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Last Name<i class='bx bx-sort sort-icon'></i></th>
-                    <th>First Name<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Borrowed Date<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Return Date<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Return Status<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Renewal Status<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column1="transaction_id" data-order="asc">Transaction ID<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column1="book_id" data-order="asc">Book ID<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column1="last_name" data-order="asc">Last Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column1="first_name" data-order="asc">First Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column1="borrowed_date" data-order="asc">Borrowed Date<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column1="return_date" data-order="asc">Return Date<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column1="return_status" data-order="asc">Return Status<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column1="renewal_status" data-order="asc">Renewal Status<i class='bx bx-sort sort-icon'></i></th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -62,8 +62,10 @@
                                 <td>{$row['return_status']}</td>
                                 <td>{$row['renewal_status']}</td>
                                 <td>
+                                <div class='actions_button'>
                                     <button class='return-btn' data-id='{$row['transaction_id']}'>Return</button>
                                     <button class='renew-btn' data-id='{$row['transaction_id']}'>Renew</button>
+                                </div>
                                 </td>
                               </tr>";
                     }
@@ -77,7 +79,57 @@
 </div>
 
 <script>
+
 document.addEventListener('DOMContentLoaded', function() {
+    const borrowedBook_tableHeaders = document.querySelectorAll('th[data-column1]');
+    const borrowedBook_tableBody = document.getElementById('borrowedBookTableBody');
+
+    borrowedBook_tableHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const column = header.getAttribute('data-column1');
+            let order = header.getAttribute('data-order');
+
+            order = order === 'asc' ? 'desc' : 'asc';
+            header.setAttribute('data-order', order);
+
+            borrowedBook_sortTable(column, order);
+        });
+    
+
+    function borrowedBook_sortTable(column, order) {
+        const rows = Array.from(borrowedBook_tableBody.querySelectorAll('tr'));
+        const columnIndex = borrowedBook_getColumnIndex(column);
+
+        rows.sort((a, b) => {
+            const cellA = a.cells[columnIndex].textContent.trim().toLowerCase();
+            const cellB = b.cells[columnIndex].textContent.trim().toLowerCase();
+
+            if (order === 'asc') {
+                return cellA.localeCompare(cellB);
+            } else {
+                return cellB.localeCompare(cellA);
+            }
+        });
+
+        rows.forEach(row => borrowedBook_tableBody.appendChild(row));
+    }
+
+    function borrowedBook_getColumnIndex(column) {
+        const columnOrder = {
+            'transaction_id': 0,
+            'book_id': 1,
+            'last_name': 2,
+            'first_name': 3,
+            'borrowed_date': 4,
+            'return_date': 5,
+            'return_status': 6,
+            'renewal_status': 7
+        };
+        return columnOrder[column];
+    }
+});
+
+
     document.querySelectorAll('.return-btn').forEach(button => {
         button.addEventListener('click', function() {
             const transactionId = this.getAttribute('data-id');
@@ -145,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('search3').addEventListener('input', filterTable);
     document.getElementById('statusFilter').addEventListener('change', filterTable);
 });
+
 </script>
 
 </body>

@@ -1,6 +1,7 @@
 <?php
-include 'db_config.php';
-
+ob_start();
+include 'db_config.php';?>
+<?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['toggle_status'])) {
         $user_id = $_POST['user_id'];
@@ -10,6 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $new_status = $row['status'] == 1 ? 0 : 1;
             $conn->query("UPDATE user SET status = $new_status WHERE user_id = $user_id");
         }
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
     }
 
     if (isset($_POST['update_user'])) {
@@ -22,13 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $contact_number = $_POST['contact_number'];
 
         if ($conn->query("UPDATE user SET first_name = '$first_name', last_name = '$last_name', department = '$department', year_level = '$year_level', phinmaed_email = '$phinmaed_email', contact_number = '$contact_number' WHERE user_id = $user_id") === TRUE) {
-            // User updated successfully
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
         } else {
             echo 'Error: ' . $conn->error;
         }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -81,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $toggleStatus = $row['status'] == 1 ? 'Deactivate' : 'Activate';
                         $toggleClass = $row['status'] == 1 ? 'deactivate-btn' : 'activate-btn';
                         $toggleIcon = $row['status'] == 1 ? 'bx-user-x' : 'bx-user-check';
+                        $statusClass = $row['status'] == 1 ? 'status-active' : 'status-deactivated';
                         echo "<tr>
                                 <td>{$row['student_id']}</td>
                                 <td>{$row['first_name']}</td>
@@ -89,12 +95,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <td>{$row['year_level']}</td>
                                 <td>{$row['phinmaed_email']}</td>
                                 <td>{$row['contact_number']}</td>
-                                <td>{$status}</td>
+                                <td class='{$statusClass}'>{$status}</td>
                                 <td>
                                     <form method='POST' class='toggle-status-form'>
                                         <input type='hidden' name='user_id' value='{$row['user_id']}'>
-                                        <button type='submit' name='toggle_status' class='toggle-status-btn {$toggleClass}' onclick='return confirmToggleStatus(event, \"{$toggleStatus}\")'><i class='bx {$toggleIcon}'></i> {$toggleStatus}</button>
-                                        <button type='button' class='edit-btn' onclick='editUser({$row['user_id']})'><i class='bx bx-edit'></i></button>
+                                        <div class='actions_button'>
+                                            <button type='submit' name='toggle_status' class='toggle-status-btn {$toggleClass}' onclick='return confirmToggleStatus(event, \"{$toggleStatus}\")'><i class='bx {$toggleIcon}'></i> {$toggleStatus}</button>
+                                            <button type='button' class='edit-btn' onclick='editUser({$row['user_id']})'><i class='bx bx-edit'></i></button>
+                                            <button type='button' class='three-dot-btn' onclick='seeMore({$row['user_id']})'><i class='bx bx-dots-vertical-rounded'></i></button>
+                                            </div>
                                     </form>
                                 </td>
                               </tr>";
@@ -107,6 +116,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </table>
     </div>
 
+
+
+
+    <!-- Floating Table Container -->
+    <div id="floatingTableContainer" class="floating-table-container">
+        <span class="close-floating-table" onclick="closeFloatingTable()">×</span>
+        <h2>User Details</h2>
+        <div id="floatingTableContent"></div>
+    </div>
+
     <!-- Edit User Sliding Form -->
     <div id="editUserContainer" class="edit-user-container">
         <h1>Edit User</h1>
@@ -114,8 +133,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="hidden" name="user_id" id="editUserId">
             <input type="text" name="first_name" placeholder="First Name" id="editFirstName" required>
             <input type="text" name="last_name" placeholder="Last Name" id="editLastName" required>
-            <input type="text" name="department" id="editDepartment" required>
-            <select type="text" name="year_level" id="editYearLevel" required>
+            <select name="department" id="editDepartment" required>
+                <option value="" disabled selected>Select Department</option>
+                <option value="CITE">CITE</option>
+                <option value="CAHS">CAHS</option>
+                <option value="CCJE">CCJE</option>
+                <option value="CEA">CEA</option>
+                <option value="CELA">CELA</option>
+                <option value="CMA">CMA</option>
+                <option value="COL">COL</option>
+                <option value="SHS">SHS</option>
+            </select>
+            <select name="year_level" id="editYearLevel" required>
                 <option value="" disabled selected>Select Year Level</option>
                 <option value="Freshmen (1st Year)">Freshmen (1st Year)</option>
                 <option value="Sophomore (2nd Year)">Sophomore (2nd Year)</option>
@@ -156,6 +185,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 document.getElementById('editYearLevel').value = data.year_level;
                 document.getElementById('editEmail').value = data.phinmaed_email;
                 document.getElementById('editContactNumber').value = data.contact_number;
+
+                // Set the selected department
+                const departmentSelect = document.getElementById('editDepartment');
+                for (let i = 0; i < departmentSelect.options.length; i++) {
+                    if (departmentSelect.options[i].value === data.department) {
+                        departmentSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+
+                // Set the selected year level
+                const yearLevelSelect = document.getElementById('editYearLevel');
+                for (let i = 0; i < yearLevelSelect.options.length; i++) {
+                    if (yearLevelSelect.options[i].value === data.year_level) {
+                        yearLevelSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+
                 document.getElementById('editUserContainer').classList.add('active');
                 document.querySelector('.container4').classList.add('shifted');
             });
@@ -174,13 +222,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         const rows = document.getElementById('userTableBody').getElementsByTagName('tr');
 
         Array.from(rows).forEach(row => {
-            const student_id = row.cells[1].textContent.toLowerCase();
-            const first_name = row.cells[2].textContent.toLowerCase();
-            const last_name = row.cells[3].textContent.toLowerCase();
-            const row_department = row.cells[4].textContent.toLowerCase();
-            const year_level = row.cells[5].textContent.toLowerCase();
-            const phinmaed_email = row.cells[6].textContent.toLowerCase();
-            const contact_number = row.cells[7].textContent.toLowerCase();
+            const student_id = row.cells[0].textContent.toLowerCase();
+            const first_name = row.cells[1].textContent.toLowerCase();
+            const last_name = row.cells[2].textContent.toLowerCase();
+            const row_department = row.cells[3].textContent.toLowerCase();
+            const year_level = row.cells[4].textContent.toLowerCase();
+            const phinmaed_email = row.cells[5].textContent.toLowerCase();
+            const contact_number = row.cells[6].textContent.toLowerCase();
 
             const matchesSearch = student_id.includes(filter) || first_name.includes(filter) || last_name.includes(filter) || year_level.includes(filter) || phinmaed_email.includes(filter) || contact_number.includes(filter);
             const matchesDepartment = department === "" || row_department === department;
@@ -195,6 +243,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     document.getElementById('search2').addEventListener('input', filterTable);
     document.getElementById('userFilter').addEventListener('change', filterTable);
+    
+    function seeMore(userId) {
+        fetch(`get_user_details.php?user_id=${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                let content = `
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <th style="text-align: left; padding: 8px;">Student ID</th>
+                            <td style="padding: 8px;">${data.user.student_id}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: left; padding: 8px;">Name</th>
+                            <td style="padding: 8px;">${data.user.first_name} ${data.user.last_name}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: left; padding: 8px;">Department</th>
+                            <td style="padding: 8px;">${data.user.department}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: left; padding: 8px;">Year Level</th>
+                            <td style="padding: 8px;">${data.user.year_level}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: left; padding: 8px;">Email</th>
+                            <td style="padding: 8px;">${data.user.phinmaed_email}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: left; padding: 8px;">Contact Number</th>
+                            <td style="padding: 8px;">${data.user.contact_number}</td>
+                        </tr>
+                    </table>
+                    `;
+
+
+                content += '<h3>Attendance</h3>';
+                content += '<table><thead><tr><th>Date</th><th>Entry Time</th></tr></thead><tbody>';
+                data.attendance.forEach(att => {
+                    content += `<tr><td>${att.date}</td><td>${att.entry_time}</td></tr>`;
+                });
+                content += '</tbody></table>';
+
+                content += '<h3>Borrowed Books</h3>';
+                content += '<table><thead><tr><th>Book Title</th><th>Borrowed Date</th><th>Return Date</th><th>Status</th></tr></thead><tbody>';
+                data.borrowed_books.forEach(book => {
+                    content += `<tr><td>${book.title}</td><td>${book.borrowed_date}</td><td>${book.return_date}</td><td>${book.status}</td></tr>`;
+                });
+                content += '</tbody></table>';
+
+                document.getElementById('floatingTableContent').innerHTML = content;
+                document.getElementById('floatingTableContainer').classList.add('active');
+            });
+    }
+
+    function closeFloatingTable() {
+        document.getElementById('floatingTableContainer').classList.remove('active');
+    }
     </script>
 </body>
+<?php
+ob_end_flush();?>
 </html>

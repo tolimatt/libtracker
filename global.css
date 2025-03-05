@@ -57,7 +57,6 @@ body {
     border-radius: 0.3125rem;
     cursor: pointer;
     font-size: calc(var(--font-size-base) * 1);
-    display: flex;
     align-items: center;
     gap: calc(var(--spacing-base) * 0.3125);
     transition: var(--tran-02);
@@ -70,6 +69,7 @@ body {
     width: 20%;
     margin-bottom: calc(var(--spacing-base) * 0.625);
     box-shadow: 5px 5px 10px 2px rgba(0,0,0,0.5);
+    text-align: center;
 }
 
 body.dark .add-btn {
@@ -146,6 +146,14 @@ body.dark .add-btn {
     font-size: 1.2rem;
 }
 
+.three-dot-btn{
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--table-text-color);
+    font-size: calc(var(--font-size-base) * 1.125);
+}
+
 
 
 
@@ -178,7 +186,13 @@ body.dark thead {
 thead th, tbody td {
     padding: calc(var(--spacing-base) * 0.625);
     text-align: center;
+    max-width: 150px; /* Adjust as needed */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
+
+
 thead th {
     cursor: pointer;
 }
@@ -240,6 +254,49 @@ body.dark .table-container5,.table-container,.table-container1,.table-container3
     background: var(--body-color);
 }
 
+
+.dashboard-box {
+    color: white;
+    opacity: 0.9;
+    background: var(--primary-color);
+    margin: 0.0625rem; /* 1px */
+    padding: 0.625rem; /* 10px */
+    border-radius: 0.625rem; /* 10px */
+    box-shadow: 0rem 0.25rem 0.625rem rgba(0, 0, 0, 0.1); /* 0px 4px 10px */
+    width: 50%; /* Adjust width for two boxes side by side */
+    height: 20rem; /* Adjust width for two boxes side by side */
+}
+
+.dashboard-long-box {
+    text-align: left;
+    color: white;
+    opacity: 0.9;
+    margin-top: 10px;
+    margin-bottom: 1.25rem;
+    background: var(--primary-color);
+    padding: 1.25rem;
+    border-radius: 0.625rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Full width for the long box */
+    height: 25rem;
+}
+
+
+body.dark .dashboard-box, .dashboard-long-box {
+    background: var(--primary-color);
+}
+
+.header-right{
+    background:var(--primary-color);
+}
+body.dark .header-right {
+    background: var(--primary-color);
+}
+
+body.dark .department-box {
+    background: var(--body-color);
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
     .search-sort h1 {
@@ -286,3 +343,6 @@ th:active .sort-icon {
     align-items: center;
     justify-content: center;
 }
+
+
+

@@ -34,3 +34,12 @@
 #stopScanner {
     width: 100%; /* Adjust width as needed */
 }
+
+.drawingBuffer {
+    width: 460px;
+    height: 10px;
+}
+
+.barcode_scanner {
+    text-align: center;
+}
