@@ -32,7 +32,7 @@
     
     <div id="scanner-container1">
         <div id="scanner">
-            <h3 class="barcode_scanner">Barcode Scanner</h3>
+            <h1 class="barcode_scanner">Barcode Scanner</h1>
         </div>
         <button id="stopScanner" class="add-btn">Stop Scanner</button>
     </div>

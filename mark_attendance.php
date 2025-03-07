@@ -8,7 +8,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 if (isset($data['student_id'])) {
     $student_id = $data['student_id'];
-    $entry_time = date('Y-m-d H:i:s');
+    $entry_time = date('F j, Y, g:i a');
 
     // Insert attendance record into the database
     $query = "INSERT INTO attendance (student_id, entry_time) VALUES ('$student_id', '$entry_time')";

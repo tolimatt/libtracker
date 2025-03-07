@@ -30,7 +30,7 @@
             <thead>
                 <tr>
                     <th data-column1="transaction_id" data-order="asc">Transaction ID<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column1="book_id" data-order="asc">Book ID<i class='bx bx-sort sort-icon'></i></th>
+      
                     <th data-column1="last_name" data-order="asc">Last Name<i class='bx bx-sort sort-icon'></i></th>
                     <th data-column1="first_name" data-order="asc">First Name<i class='bx bx-sort sort-icon'></i></th>
                     <th data-column1="borrowed_date" data-order="asc">Borrowed Date<i class='bx bx-sort sort-icon'></i></th>
@@ -42,7 +42,7 @@
             </thead>
             <tbody id="borrowedBookTableBody">
                 <?php
-                $query = "SELECT borrowed_books.transaction_id, borrowed_books.book_id, user.last_name, user.first_name, 
+                $query = "SELECT borrowed_books.transaction_id, user.last_name, user.first_name, 
                                  borrowed_books.borrowed_date, borrowed_books.return_date, borrowed_books.return_status, borrowed_books.renewal_status 
                           FROM borrowed_books 
                           INNER JOIN user ON borrowed_books.user_id = user.user_id 
@@ -54,7 +54,6 @@
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>
                                 <td>{$row['transaction_id']}</td>
-                                <td>{$row['book_id']}</td>
                                 <td>{$row['last_name']}</td>
                                 <td>{$row['first_name']}</td>
                                 <td>{$row['borrowed_date']}</td>
@@ -70,7 +69,7 @@
                               </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='9'>No Borrowed Books Found.</td></tr>";
+                    echo "<tr><td colspan='8'>No Borrowed Books Found.</td></tr>";
                 }
                 ?>
             </tbody>
@@ -117,13 +116,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function borrowedBook_getColumnIndex(column) {
         const columnOrder = {
             'transaction_id': 0,
-            'book_id': 1,
-            'last_name': 2,
-            'first_name': 3,
-            'borrowed_date': 4,
-            'return_date': 5,
-            'return_status': 6,
-            'renewal_status': 7
+            'last_name': 1,
+            'first_name': 2,
+            'borrowed_date': 3,
+            'return_date': 4,
+            'return_status': 5,
+            'renewal_status': 6
         };
         return columnOrder[column];
     }
@@ -175,15 +173,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         Array.from(rows).forEach(row => {
             const transaction_id = row.cells[0].textContent.toLowerCase();
-            const book_id = row.cells[1].textContent.toLowerCase();
-            const last_name = row.cells[2].textContent.toLowerCase();
-            const first_name = row.cells[3].textContent.toLowerCase();
-            const borrowed_date = row.cells[4].textContent.toLowerCase();
-            const return_date = row.cells[5].textContent.toLowerCase();
-            const return_status = row.cells[6].textContent.toLowerCase();
-            const renewal_status = row.cells[7].textContent.toLowerCase();
+            const last_name = row.cells[1].textContent.toLowerCase();
+            const first_name = row.cells[2].textContent.toLowerCase();
+            const borrowed_date = row.cells[3].textContent.toLowerCase();
+            const return_date = row.cells[4].textContent.toLowerCase();
+            const return_status = row.cells[5].textContent.toLowerCase();
+            const renewal_status = row.cells[6].textContent.toLowerCase();
 
-            const matchesSearch = transaction_id.includes(filter) || book_id.includes(filter) || last_name.includes(filter) || first_name.includes(filter) || borrowed_date.includes(filter) || return_date.includes(filter);
+            const matchesSearch = transaction_id.includes(filter) || last_name.includes(filter) || first_name.includes(filter) || borrowed_date.includes(filter) || return_date.includes(filter);
             const matchesStatus = status === "" || return_status === status || renewal_status === status;
 
             if (matchesSearch && matchesStatus) {

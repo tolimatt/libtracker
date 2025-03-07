@@ -22,19 +22,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $copies_available = $_POST["copies_available"];
         $total_copies = $_POST["total_copies"];
         $department = $_POST["department"];
-        $image_url = $_POST["image_url"];
-        $pdf_url = $_POST["pdf_url"];
+        $image_url = $_POST["current_image_url"];
+        $pdf_url = $_POST["current_pdf_url"];
 
         // Handle file uploads
         if (isset($_FILES['book_cover']) && $_FILES['book_cover']['error'] == 0) {
             $imageName = basename($_FILES['book_cover']['name']);
-            $image_url = 'http://192.168.1.248/LibTrack/libtracker/book_images/' . $imageName;
+            $image_url = 'http://192.168.150.209/LibTrack/libtracker/book_images/' . $imageName;
             move_uploaded_file($_FILES['book_cover']['tmp_name'], $imageFolder . $imageName);
         }
         
         if (isset($_FILES['book_pdf']) && $_FILES['book_pdf']['error'] == 0) {
             $pdfName = basename($_FILES['book_pdf']['name']);
-            $pdf_url = 'http://192.168.1.248/LibTrack/libtracker/book_pdf/' . $pdfName;
+            $pdf_url = 'http://192.168.150.209/LibTrack/libtracker/book_pdf/' . $pdfName;
             move_uploaded_file($_FILES['book_pdf']['tmp_name'], $pdfFolder . $pdfName);
         }
 
@@ -59,13 +59,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Handle file uploads
             if (isset($_FILES['book_cover']) && $_FILES['book_cover']['error'] == 0) {
                 $imageName = basename($_FILES['book_cover']['name']);
-                $image_url = 'http://192.168.1.248/LibTrack/libtracker/book_images/' . $imageName;
+                $image_url = 'http://192.168.150.209/LibTrack/libtracker/book_images/' . $imageName;
                 move_uploaded_file($_FILES['book_cover']['tmp_name'], $imageFolder . $imageName);
             }
             
             if (isset($_FILES['book_pdf']) && $_FILES['book_pdf']['error'] == 0) {
                 $pdfName = basename($_FILES['book_pdf']['name']);
-                $pdf_url = 'http://192.168.1.248/LibTrack/libtracker/book_pdf/' . $pdfName;
+                $pdf_url = 'http://192.168.150.209/LibTrack/libtracker/book_pdf/' . $pdfName;
                 move_uploaded_file($_FILES['book_pdf']['tmp_name'], $pdfFolder . $pdfName);
             }
 
@@ -78,6 +78,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 echo "<script>alert('Error: " . $conn->error . "');</script>";
             }
+        } else {
+            echo "<script>alert('Please fill in all required fields.');</script>";
         }
     }
 }
@@ -129,8 +131,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="CCJE">CCJE</option>
                 <option value="CAHS">CAHS</option>
             </select>
-            <input type="file" name="book_cover" id="book_cover" accept="image/*" required>
-            <input type="file" name="book_pdf" id="book_pdf" accept="application/pdf">
+                <div class="input_bookcover">
+                    <input type="file" name="book_cover" id="book_cover" accept="image/*" required>
+                    <label for="book_cover" class="file-label">
+                        <span class="button-text">Upload Cover Image</span>
+                        <span class="file-name"></span>
+                        <i class='bx bx-image'></i>
+                    </label>
+                </div>
+
+                <div class="input_bookpdf">
+                    <input type="file" name="book_pdf" id="book_pdf" accept="application/pdf" required>
+                    <label for="book_pdf" class="file-label">
+                        <span class="button-text">Upload PDF</span>
+                        <span class="file-name"></span>
+                        <i class='bx bx-file'></i>
+                </label>
+                </div>
             <button type="submit">Add Book</button>
             <button type="button" id="closeFormButton">Cancel</button>
         </form>
@@ -139,27 +156,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div id="editBookContainer" class="edit-book-container">
         <h1>Edit Book</h1>
         <form id="editBookForm" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="book_id" id="editBookId">
-            <input type="text" name="title" id="editTitle" placeholder="Book Title" required>
-            <input type="text" name="author" id="editAuthor" placeholder="Author" required>
-            <input type="number" name="isbn" id="editIsbn" placeholder="Book Code" required>
-            <input type="number" name="copies_available" id="editCopiesAvailable" placeholder="Available Copies" required>
-            <input type="number" name="total_copies" id="editTotalCopies" placeholder="Total Copies" required>
-            <select name="department" id="editDepartment" required>
-                <option value="" disabled selected>Select Genre</option>
-                <option value="CITE">CITE</option>
-                <option value="CMA">CMA</option>
-                <option value="CEA">CEA</option>
-                <option value="CAS">CAS</option>
-                <option value="CELA">CELA</option>
-                <option value="CCJE">CCJE</option>
-                <option value="CAHS">CAHS</option>
-            </select>
-            <input type="file" name="book_cover" id="editBookCover" accept="image/*">
-            <input type="file" name="book_pdf" id="editBookPdf" accept="application/pdf">
-            <button type="submit" name="update_book" class="update-btn">Update</button>
-            <button type="button" id="closeEditFormButton" onclick="closeEditForm()">Cancel</button>
-        </form>
+    <input type="hidden" name="book_id" id="editBookId">
+    <input type="hidden" name="current_image_url" id="currentImageUrl">
+    <input type="hidden" name="current_pdf_url" id="currentPdfUrl">
+    <input type="text" name="title" id="editTitle" placeholder="Book Title" required>
+    <input type="text" name="author" id="editAuthor" placeholder="Author" required>
+    <input type="number" name="isbn" id="editIsbn" placeholder="Book Code" required>
+    <input type="number" name="copies_available" id="editCopiesAvailable" placeholder="Available Copies" required>
+    <input type="number" name="total_copies" id="editTotalCopies" placeholder="Total Copies" required>
+    <select name="department" id="editDepartment" required>
+        <option value="" disabled selected>Select Genre</option>
+        <option value="CITE">CITE</option>
+        <option value="CMA">CMA</option>
+        <option value="CEA">CEA</option>
+        <option value="CAS">CAS</option>
+        <option value="CELA">CELA</option>
+        <option value="CCJE">CCJE</option>
+        <option value="CAHS">CAHS</option>
+    </select>
+    
+
+    
+<div class="input_bookcover">
+    <input type="file" name="book_cover" id="editBookCover" accept="image/*">
+    <label for="editBookCover" class="file-label">
+        <span class="button-text">Upload Cover Image</span>
+        <span class="file-name"></span>
+        <i class='bx bx-image'></i>
+    </label>
+</div>
+
+<div class="input_bookpdf">
+    <input type="file" name="book_pdf" id="editBookPdf" accept="application/pdf">
+    <label for="editBookPdf" class="file-label">
+        <span class="button-text">Upload PDF</span>
+        <span class="file-name"></span>
+        <i class='bx bx-file'></i>
+    </label>
+</div>
+
+                <div>
+        <label>Current Book Cover:</label>
+        <img id="currentBookCover" src="" alt="Current Book Cover" style="max-width: 100px;">
+    </div>
+
+    <div>
+        <label>Current Book PDF:</label>
+        <a id="currentBookPdf" href="" target="_blank">View Current PDF</a>
+    </div>
+    <button type="submit" name="update_book" class="update-btn">Update</button>
+    <button type="button" id="closeEditFormButton" onclick="closeEditForm()">Cancel</button>
+</form>
     </div>
 
     <div class="table-container">
@@ -212,9 +259,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <script>
+
+document.querySelectorAll('.input_bookcover input, .input_bookpdf input').forEach(input => {
+  input.addEventListener('change', function(e) {
+    const fileName = this.files[0] ? this.files[0].name : '';
+    this.nextElementSibling.querySelector('.file-name').textContent = fileName;
+  });
+});
+
 function confirmDelete() {
     return confirm("Are you sure you want to delete this book?");
 }
+
 
 function editBook(bookId) {
     fetch(`get_book.php?book_id=${bookId}`)
@@ -228,14 +284,17 @@ function editBook(bookId) {
             document.getElementById('editTotalCopies').value = data.total_copies;
             document.getElementById('editDepartment').value = data.department;
 
-            // Set the image and PDF URLs
-            document.getElementById('editBookCover').value = '';
-            document.getElementById('editBookPdf').value = '';
+            // Set the current image and PDF URLs
+            document.getElementById('currentImageUrl').value = data.image_url;
+            document.getElementById('currentPdfUrl').value = data.pdf_url;
+            document.getElementById('currentBookCover').src = data.image_url;
+            document.getElementById('currentBookPdf').href = data.pdf_url;
 
             document.getElementById('editBookContainer').classList.add('active');
             document.querySelector('.container').classList.add('shifted');
         });
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const openFormButton = document.getElementById('openFormButton');

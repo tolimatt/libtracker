@@ -17,14 +17,21 @@
     top: 0;
     right: -500px; /* Initially hidden off-screen */
     width: 500px; /* Adjust width as needed */
-    height: 100%;
-    background: white;
+    height: 93.51%;
+    background: var(--primary-color);
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: right 0.5s ease; /* Smooth sliding effect */
+    transition: right 0.5s ease;
     padding: 20px;
-    z-index: 1000; /* Ensure it appears above other content */
+    z-index: 1000;
     display: flex;
-    flex-direction: column; /* Ensure form elements are stacked vertically */
+    flex-direction: column;
+    text-align: center;
+    color: white;
+    border-radius: .625rem;
+    margin-top: 30px;
+}
+#scanner-container1 h1{
+    margin-bottom: 20px;
 }
 
 #scanner-container1.active {
