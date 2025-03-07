@@ -52,8 +52,7 @@
             <tbody id="attendanceTableBody">
                 <?php
                 date_default_timezone_set('Asia/Manila');
-                $query = "SELECT user.student_id, user.first_name, user.last_name, user.department, user.year_level, 
-                                 CONVERT_TZ(attendance.entry_time, '+00:00', '+07:00') AS entry_time 
+                $query = "SELECT user.student_id, user.first_name, user.last_name, user.department, user.year_level, entry_time 
                           FROM attendance 
                           INNER JOIN user ON attendance.student_id = user.student_id 
                           ORDER BY attendance.entry_time DESC";
