@@ -1,15 +1,5 @@
 <?php
-header('Content-Type: application/json');
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "libtrack";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die(json_encode(['error' => 'Connection failed: ' . $conn->connect_error]));
-}
+include 'db_config.php';
 
 $sql = "SELECT book_id, title, author, image_url FROM books";
 $result = $conn->query($sql);

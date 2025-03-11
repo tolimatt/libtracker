@@ -264,7 +264,7 @@ body.dark .table-container5,.table-container,.table-container1,.table-container3
     border-radius: 0.625rem; /* 10px */
     box-shadow: 0rem 0.25rem 0.625rem rgba(0, 0, 0, 0.1); /* 0px 4px 10px */
     width: 50%; /* Adjust width for two boxes side by side */
-    height: 20rem; /* Adjust width for two boxes side by side */
+    height: 25rem; /* Adjust width for two boxes side by side */
 }
 
 .dashboard-long-box {

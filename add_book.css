@@ -127,11 +127,11 @@
     z-index: 1;
 }
 .book-cover.active{
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(1); /* Adjust scale as you like */
-    z-index: 1000;
+    z-index: 10001;
     width: auto; /* Optional: control size */
     height: auto; /* Optional */
     opacity: 1;

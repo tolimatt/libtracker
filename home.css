@@ -55,6 +55,7 @@
     text-align: center;
     opacity: 0.9;
     margin-top: 5px;
+ 
 }
 
 .department-logo {
@@ -73,3 +74,67 @@
     font-weight: normal;
     opacity: 1;
 }
+
+
+
+
+.attendance-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    border-radius: 12px;
+    gap: 30px; /* Creates spacing between label and chart */
+}
+
+.attendance-labels {
+    flex: 1;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    border-radius: 10px;
+    text-align: left;
+    min-width: 150px;
+}
+
+.attendance-labels div {
+    padding: 8px 0;
+    border-bottom: 1px;
+    color: white;
+}
+
+.attendance-chart {
+    flex: 2;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive: Stack labels and chart on smaller screens */
+@media (max-width: 768px) {
+    .attendance-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .attendance-labels {
+        min-width: 100%;
+    }
+
+    .attendance-chart {
+        max-width: 100%;
+    }
+}
+
+

@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const code = data.codeResult.code;
         const currentTime = new Date().getTime();
 
-        if (code !== lastScannedCode || (currentTime - lastScannedTime) > 3000) {
+        if (code !== lastScannedCode || (currentTime - lastScannedTime) > 5000) {
             lastScannedCode = code;
             lastScannedTime = currentTime;
             console.log("Barcode detected and processed : [" + code + "]", data);

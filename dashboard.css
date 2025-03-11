@@ -258,10 +258,11 @@ body.dark .switch::before{
     left: 250px;
     height: 100vh;
     width: calc(100% - 250px);
-    background: url(logo_lib.png) no-repeat center center var(--body-color); /* Gradient for background */
+    background: url(logo_lib.png) no-repeat center center var(--body-color);
     background-size: 1000px auto;
     transition: var(--tran-05);
     padding: 15px;
+    
 }
 .sidebar.close ~ .home-addbook{
     left: 88px;
