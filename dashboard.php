@@ -78,7 +78,14 @@ if (!isset($_SESSION['admin_logged_in'])) {
                 <li class="nav-link">
                     <a href="#users">
                     <i class='bx bx-user icon' ></i>
-                        <span class="text nav-text">Users</span>
+                        <span class="text nav-text">Students</span>
+                    </a>
+                </li>
+
+                <li class="nav-link">
+                    <a href="#staff">
+                    <i class='bx bx-user icon' ></i>
+                        <span class="text nav-text">Staff</span>
                     </a>
                 </li>
 
@@ -137,6 +144,12 @@ if (!isset($_SESSION['admin_logged_in'])) {
     <section id="users" class="home-addbook">
         <div class="home-content">
             <?php include 'users.php'; ?>
+        </div>
+    </section>
+
+    <section id="staff" class="home-addbook">
+        <div class="home-content">
+            <?php include 'staff.php'; ?>
         </div>
     </section>
 

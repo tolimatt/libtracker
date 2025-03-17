@@ -1,39 +1,7 @@
 <?php
 ob_start();
-include 'db_config.php';?>
-<?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['toggle_status'])) {
-        $user_id = $_POST['user_id'];
-        $result = $conn->query("SELECT status FROM user WHERE user_id = $user_id");
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $new_status = $row['status'] == 1 ? 0 : 1;
-            $conn->query("UPDATE user SET status = $new_status WHERE user_id = $user_id");
-        }
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    }
-
-    if (isset($_POST['update_user'])) {
-        $user_id = $_POST['user_id'];
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-        $department = $_POST['department'];
-        $year_level = $_POST['year_level'];
-        $phinmaed_email = $_POST['phinmaed_email'];
-        $contact_number = $_POST['contact_number'];
-
-        if ($conn->query("UPDATE user SET first_name = '$first_name', last_name = '$last_name', department = '$department', year_level = '$year_level', phinmaed_email = '$phinmaed_email', contact_number = '$contact_number' WHERE user_id = $user_id") === TRUE) {
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
-        } else {
-            echo 'Error: ' . $conn->error;
-        }
-    }
-}
+include 'db_config.php';
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,9 +14,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>User Management</title>
 </head>
 <body>
+<nav class="header">
+    <h1>Students</h1>
+
+    <!-- Container to keep notification and header-right together -->
+    <div class="header-actions">
+        <button id="notificationButton" class="notification-btn">
+            <i class='bx bx-bell'></i>
+        </button>
+        <div class="header-right">
+            <?php echo date('l, F j, Y g:i A'); ?>
+        </div>
+    </div>
+</nav>
 <div class="container4">
     <div class="search-sort">
-        <h1>Users</h1>
         <input type="text" id="search2" placeholder="Search...">
         <select id="userFilter" class="filter-attendance">
             <option value="">All Departments</option>
@@ -66,14 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <table>
             <thead>
                 <tr>
-                    <th>Student Id<i class='bx bx-sort sort-icon'></i></th>
-                    <th>First Name<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Last Name<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Department<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Year Level<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Phinma Email<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Contact Number<i class='bx bx-sort sort-icon'></i></th>
-                    <th>Status</th>
+                    <th data-column4="student_id">Student Id<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column4="first_name">First Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column4="last_name">Last Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column4="department">Department<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column4="year_level">Year Level<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column4="phinmaed_email">Phinma Email<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column4="contact_number">Contact Number</th>
+                    <th data-column4="status">Status<i class='bx bx-sort sort-icon'></i></th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -101,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <input type='hidden' name='user_id' value='{$row['user_id']}'>
                                         <div class='actions_button'>
                                             <button type='submit' name='toggle_status' class='toggle-status-btn {$toggleClass}' onclick='return confirmToggleStatus(event, \"{$toggleStatus}\")'><i class='bx {$toggleIcon}'></i> {$toggleStatus}</button>
-                                            <button type='button' class='edit-btn' onclick='editUser({$row['user_id']})'><i class='bx bx-edit'></i></button>
+                                            <button type='button' class='edit-btn' onclick='editUser({$row['user_id']})'><i class='bx bx-edit ' ></i></button>
                                             <button type='button' class='three-dot-btn' onclick='seeMore({$row['user_id']})'><i class='bx bx-dots-vertical-rounded'></i></button>
                                             </div>
                                     </form>
@@ -133,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="hidden" name="user_id" id="editUserId">
             <input type="text" name="first_name" placeholder="First Name" id="editFirstName" required>
             <input type="text" name="last_name" placeholder="Last Name" id="editLastName" required>
-            <select name="department" id="editDepartment" required>
+            <select name="department" id="editCategory" required>
                 <option value="" disabled selected>Select Department</option>
                 <option value="CITE">CITE</option>
                 <option value="CAHS">CAHS</option>
@@ -159,10 +139,99 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
 
-    <!-- SCRIPT -->
+                                             <!-- End of Edit User Sliding Form -->
+
+            <!-- SCRIPT -->
     <script>
-    function confirmAction() {
-        return confirm('Are you sure you want to perform this action?');
+
+document.getElementById('editUserForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    // Format first name and last name to Title Case
+    const firstNameInput = document.getElementById('editFirstName');
+    const lastNameInput = document.getElementById('editLastName');
+    firstNameInput.value = toTitleCase(firstNameInput.value);
+    lastNameInput.value = toTitleCase(lastNameInput.value);
+
+    const formData = new FormData(this);
+    fetch('update_user.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('User updated successfully!');
+            closeEditForm();
+
+            // Update UI dynamically
+            const row = document.querySelector(`input[value='${formData.get("user_id")}']`).closest('tr');
+            row.cells[1].textContent = formData.get("first_name");
+            row.cells[2].textContent = formData.get("last_name");
+            row.cells[3].textContent = formData.get("department");
+            row.cells[4].textContent = formData.get("year_level");
+            row.cells[5].textContent = formData.get("phinmaed_email");
+        } else {
+            alert('Error updating user: ' + data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.toggle-status-btn').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const userId = this.closest('form').querySelector('input[name="user_id"]').value;
+            const action = this.textContent.trim();
+            if (confirmToggleStatus(event, action)) {
+                toggleUserStatus(userId, action);
+            }
+        });
+    });
+
+    function toggleUserStatus(userId, action) {
+        fetch('toggle_status.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: userId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const row = document.querySelector(`input[value='${userId}']`).closest('tr');
+                const statusCell = row.cells[7]; // Status column
+                const button = row.querySelector('.toggle-status-btn');
+                const icon = button.querySelector('i');
+
+                if (data.new_status === 1) {
+                    statusCell.textContent = 'Active';
+                    statusCell.classList.add('status-active');
+                    statusCell.classList.remove('status-deactivated');
+                    button.innerHTML = '<i class="bx bx-user-x"></i> Deactivate';
+                    button.classList.remove('activate-btn');
+                    button.classList.add('deactivate-btn');
+                } else {
+                    statusCell.textContent = 'Deactivated';
+                    statusCell.classList.add('status-deactivated');
+                    statusCell.classList.remove('status-active');
+                    button.innerHTML = '<i class="bx bx-user-check"></i> Activate';
+                    button.classList.remove('deactivate-btn');
+                    button.classList.add('activate-btn');
+                }
+            } else {
+                alert('Error toggling status: ' + data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     function confirmToggleStatus(event, action) {
@@ -171,6 +240,66 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             return false;
         }
         return true;
+    }
+});
+
+
+    document.addEventListener('DOMContentLoaded', function() { 
+
+        const userTableBody = document.getElementById('userTableBody');
+        const userTableHeaders = document.querySelectorAll('th[data-column4]');
+
+        userTableHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const column = header.getAttribute('data-column4');
+            let order = header.getAttribute('data-order');
+
+            order = order === 'asc' ? 'desc' : 'asc';
+            header.setAttribute('data-order', order);
+
+            user_sortTable(column, order);
+        });
+    });
+
+    function  user_sortTable(column, order) {
+        const rows = Array.from(userTableBody.querySelectorAll('tr'));
+        const columnIndex = user_getColumnIndex(column);
+
+        rows.sort((a, b) => {
+            const cellA = a.cells[columnIndex].textContent.trim().toLowerCase();
+            const cellB = b.cells[columnIndex].textContent.trim().toLowerCase();
+
+            if (order === 'asc') {
+                return cellA.localeCompare(cellB);
+            } else {
+                return cellB.localeCompare(cellA);
+            }
+        });
+
+        rows.forEach(row =>  userTableBody.appendChild(row));
+    }
+
+    function user_getColumnIndex(column) {
+        const columnOrder = {
+            'student_id': 0,
+            'first_name': 1,
+            'last_name': 2,
+            'department': 3,
+            'year_level': 4,
+            'phinmaed_email': 5,
+            'status': 7
+        };
+        return columnOrder[column];
+    }
+
+
+    });
+    
+
+
+
+    function confirmAction() {
+        return confirm('Are you sure you want to perform this action?');
     }
 
     function editUser(userId) {
@@ -181,13 +310,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 document.getElementById('editUserId').value = data.user_id;
                 document.getElementById('editFirstName').value = data.first_name;
                 document.getElementById('editLastName').value = data.last_name;
-                document.getElementById('editDepartment').value = data.department;
+                document.getElementById('editCategory').value = data.department;
                 document.getElementById('editYearLevel').value = data.year_level;
                 document.getElementById('editEmail').value = data.phinmaed_email;
                 document.getElementById('editContactNumber').value = data.contact_number;
 
                 // Set the selected department
-                const departmentSelect = document.getElementById('editDepartment');
+                const departmentSelect = document.getElementById('editCategory');
                 for (let i = 0; i < departmentSelect.options.length; i++) {
                     if (departmentSelect.options[i].value === data.department) {
                         departmentSelect.selectedIndex = i;
@@ -249,7 +378,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             .then(response => response.json())
             .then(data => {
                 let content = `
-                    <table style="width: 100%; border-collapse: collapse;">
+                    <table class="userdetail" style="width: 100%; border-collapse: collapse;">
                         <tr>
                             <th style="text-align: left; padding: 8px;">Student ID</th>
                             <td style="padding: 8px;">${data.user.student_id}</td>
@@ -287,7 +416,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 content += '<h3>Borrowed Books</h3>';
                 content += '<table><thead><tr><th>Book Title</th><th>Borrowed Date</th><th>Return Date</th><th>Status</th></tr></thead><tbody>';
-                data.borrowed_books.forEach(book => {
+                data.borrow.forEach(book => {
                     content += `<tr><td>${book.title}</td><td>${book.borrowed_date}</td><td>${book.return_date}</td><td>${book.status}</td></tr>`;
                 });
                 content += '</tbody></table>';
@@ -303,5 +432,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </script>
 </body>
 <?php
-ob_end_flush();?>
+ob_end_flush();
+?>
 </html>

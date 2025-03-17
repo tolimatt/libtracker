@@ -1,0 +1,185 @@
+
+.container5.shifted {
+    margin-right: 300px; /* Adjust margin to match scanner width */
+}
+
+.table-container2 {
+    width: 100%;
+    height: 94%;
+    overflow-y: auto; /* Enable vertical scrolling */    
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+
+}
+
+
+/* Edit User Sliding Form */
+.edit-staff-container {
+    position: absolute;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 93.51%;
+    background: var(--primary-color);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.5s ease;
+    padding: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+    border-radius: .625rem;
+    margin-top: 30px;
+}
+
+.edit-staff-container.active {
+    right: 0; /* Slide in from the right */
+}
+
+/* Close button */
+.close-btn {
+    align-self: flex-end;
+    cursor: pointer;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Form styles */
+.edit-staff-container h1{
+    margin-bottom: 20px;
+}
+
+.edit-staff-container form{
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-staff-container form input,
+.edit-staff-container form select,
+.edit-staff-container form button {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.edit-staff-container form button {
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-staff-container form button:hover {
+    background: #218838;
+}
+
+.toggle-staff-status-btn {
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    background: transparent; /* Set background to transparent */
+    padding: 0; /* Remove padding if any */
+    font-weight: bold;
+}
+
+.toggle-staff-status-btn.deactivate-btn {
+    color: red;
+}
+
+.toggle-staff-status-btn.activate-btn {
+    color: green;
+}
+
+.status-active-staff {
+    margin-top: 10px;
+    display: inline-block;
+    background-color: #28a745;
+    color: #fff;
+    padding: 4px 10px; 
+    border-radius: 50px; 
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 60px; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-deactivated {
+    margin-top: 10px;
+    display: inline-block;
+    background-color: #ff0000; 
+    color: #fff;
+    padding: 4px 10px; 
+    border-radius: 50px; 
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 60px; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.action_button_Staff{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+
+
+.floating-table-container {
+    display: none;
+    position: absolute;
+    top: 12.5%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 94.5%;
+    max-height: 94.5%;
+    overflow-y: auto;
+    background: var(--body-color);
+    border: 1px solid #ccc;
+    z-index: 1000;
+    padding: 20px;
+    border-radius: 10px;
+}
+.floating-table-container.active {
+    display: block;
+}
+.floating-table-container h2 {
+    margin-top: 0;
+    color: var(--text-color);
+}
+.floating-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.floating-table-container table, .floating-table-container th, .floating-table-container td {
+    border: 1px solid #ccc;
+}
+.floating-table-container th, .floating-table-container td {
+    padding: 10px;
+    text-align: left;
+}
+.close-floating-table {
+    cursor: pointer;
+    color: red;
+    float: right;
+    font-size: 30px;
+}
+.close-floating-table:hover {
+    color: darkred;
+}
+
+.userdetail th{
+    color: var(--table-text-color);
+}
+h3{
+    color: var(--table-text-color);
+}

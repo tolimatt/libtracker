@@ -1,7 +1,17 @@
 <?php
-include 'db_config.php';
+header('Content-Type: application/json');
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "libtrack";
 
-$sql = "SELECT book_id, title, author, image_url FROM books";
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die(json_encode(['error' => 'Connection failed: ' . $conn->connect_error]));
+}
+
+$sql = "SELECT book_id AS id, title, author, image_url AS imageUrl, category FROM books";
 $result = $conn->query($sql);
 
 $books = [];

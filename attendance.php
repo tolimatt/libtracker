@@ -12,10 +12,22 @@
     <title>Attendance Management</title>
 </head>
 <body>
+<nav class="header">
+    <h1>Attendance</h1>
 
+    <!-- Container to keep notification and header-right together -->
+    <div class="header-actions">
+        <button id="notificationButton" class="notification-btn">
+            <i class='bx bx-bell'></i>
+        </button>
+        <div class="header-right">
+            <?php echo date('l, F j, Y g:i A'); ?>
+        </div>
+    </div>
+</nav>
 <div class="container2">
     <div class="search-sort">
-        <h1>Attendance</h1>
+    <button id="startScanner" class="add-btn">Start Scanner</button>
         <input type="text" id="search1" placeholder="Search...">
         <select id="departmentFilter" class="filter-attendance">
             <option value="">All Departments</option>
@@ -28,7 +40,7 @@
             <option value="CAHS">CAHS</option>
         </select>
     </div>
-    <button id="startScanner" class="add-btn">Start Scanner</button>
+    
     
     <div id="scanner-container1">
         <div id="scanner">
@@ -41,12 +53,12 @@
         <table>
             <thead>
                 <tr>
-                    <th data-column2="student_id" data-order="asc">Student Id<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column2="first_name" data-order="asc">First Name<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column2="last_name" data-order="asc">Last Name<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column2="department" data-order="asc">Department<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column2="year_level" data-order="asc">Year Level<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column2="entry_time" data-order="asc">Entry Time<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column3="student_id" data-order="asc">Student Id<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column3="first_name" data-order="asc">First Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column3="last_name" data-order="asc">Last Name<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column3="department" data-order="asc">Department<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column3="year_level" data-order="asc">Year Level<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column3="entry_time" data-order="asc">Entry Time<i class='bx bx-sort sort-icon'></i></th>
                 </tr>
             </thead>
             <tbody id="attendanceTableBody">
@@ -92,11 +104,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const attendanceTableBody = document.getElementById('attendanceTableBody');
     const searchInput = document.getElementById('search1');
     const departmentFilter = document.getElementById('departmentFilter');
-    const attendance_tableHeaders = document.querySelectorAll('th[data-column2]');
+    const attendance_tableHeaders = document.querySelectorAll('th[data-column3]');
 
     attendance_tableHeaders.forEach(header => {
         header.addEventListener('click', function() {
-            const column = header.getAttribute('data-column2');
+            const column = header.getAttribute('data-column3');
             let order = header.getAttribute('data-order');
 
             order = order === 'asc' ? 'desc' : 'asc';

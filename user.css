@@ -82,6 +82,9 @@
     cursor: pointer;
     font-size: 16px;
     border: none;
+    background: transparent; /* Set background to transparent */
+    padding: 0; /* Remove padding if any */
+    font-weight: bold;
 }
 
 .toggle-status-btn.deactivate-btn {
@@ -172,4 +175,11 @@
 }
 .close-floating-table:hover {
     color: darkred;
+}
+
+.userdetail th{
+    color: var(--table-text-color);
+}
+h3{
+    color: var(--table-text-color);
 }
