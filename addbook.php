@@ -18,27 +18,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $book_id = $_POST["book_id"];
         $title = $_POST["title"];
         $author = $_POST["author"];
-        $book_code = $_POST["book_code"];
+        $isbn = $_POST["isbn"];
         $copies_available = $_POST["copies_available"];
         $total_copies = $_POST["total_copies"];
-        $category = $_POST["category"];
+        $department = $_POST["department"];
         $image_url = $_POST["current_image_url"];
         $pdf_url = $_POST["current_pdf_url"];
 
         // Handle file uploads
         if (isset($_FILES['book_cover']) && $_FILES['book_cover']['error'] == 0) {
             $imageName = basename($_FILES['book_cover']['name']);
-            $image_url = 'http://192.168.1.248/LibTrack/libtracker/book_images/' . $imageName;
+            $image_url = 'http://192.168.150.209/LibTrack/libtracker/book_images/' . $imageName;
             move_uploaded_file($_FILES['book_cover']['tmp_name'], $imageFolder . $imageName);
         }
         
         if (isset($_FILES['book_pdf']) && $_FILES['book_pdf']['error'] == 0) {
             $pdfName = basename($_FILES['book_pdf']['name']);
-            $pdf_url = 'http://192.168.1.248/LibTrack/libtracker/book_pdf/' . $pdfName;
+            $pdf_url = 'http://192.168.150.209/LibTrack/libtracker/book_pdf/' . $pdfName;
             move_uploaded_file($_FILES['book_pdf']['tmp_name'], $pdfFolder . $pdfName);
         }
 
-        $update_sql = "UPDATE books SET title = '$title', author = '$author', book_code = '$book_code', copies_available = '$copies_available', total_copies = '$total_copies', category = '$category', image_url = '$image_url', pdf_url = '$pdf_url' WHERE book_id = $book_id";
+        $update_sql = "UPDATE books SET title = '$title', author = '$author', isbn = '$isbn', copies_available = '$copies_available', total_copies = '$total_copies', department = '$department', image_url = '$image_url', pdf_url = '$pdf_url' WHERE book_id = $book_id";
         if ($conn->query($update_sql) === TRUE) {
             header("Location: " . $_SERVER['PHP_SELF']);
             exit();
@@ -46,31 +46,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "<script>alert('Error updating book: " . $conn->error . "');</script>";
         }
     } else {
-        if (isset($_POST['title'], $_POST['author'], $_POST['book_code'], $_POST['copies_available'], $_POST['total_copies'], $_POST['category'])) {
+        if (isset($_POST['title'], $_POST['author'], $_POST['isbn'], $_POST['copies_available'], $_POST['total_copies'], $_POST['department'])) {
             $title = $_POST['title'];
             $author = $_POST['author'];
-            $book_code = $_POST['book_code'];
+            $isbn = $_POST['isbn'];
             $copies_available = $_POST['copies_available'];
             $total_copies = $_POST['total_copies'];
-            $category = $_POST['category'];
+            $department = $_POST['department'];
             $image_url = '';
             $pdf_url = '';
 
             // Handle file uploads
             if (isset($_FILES['book_cover']) && $_FILES['book_cover']['error'] == 0) {
                 $imageName = basename($_FILES['book_cover']['name']);
-                $image_url = 'http://192.168.1.248/LibTrack/libtracker/book_images/' . $imageName;
+                $image_url = 'http://192.168.150.209/LibTrack/libtracker/book_images/' . $imageName;
                 move_uploaded_file($_FILES['book_cover']['tmp_name'], $imageFolder . $imageName);
             }
             
             if (isset($_FILES['book_pdf']) && $_FILES['book_pdf']['error'] == 0) {
                 $pdfName = basename($_FILES['book_pdf']['name']);
-                $pdf_url = 'http://192.168.1.248/LibTrack/libtracker/book_pdf/' . $pdfName;
+                $pdf_url = 'http://192.168.150.209/LibTrack/libtracker/book_pdf/' . $pdfName;
                 move_uploaded_file($_FILES['book_pdf']['tmp_name'], $pdfFolder . $pdfName);
             }
 
-            $sql = "INSERT INTO books (title, author, book_code, copies_available, total_copies, category, image_url, pdf_url) 
-                    VALUES ('$title', '$author', '$book_code', '$copies_available', '$total_copies', '$category', '$image_url', '$pdf_url')";
+            $sql = "INSERT INTO books (title, author, isbn, copies_available, total_copies, department, image_url, pdf_url) 
+                    VALUES ('$title', '$author', '$isbn', '$copies_available', '$total_copies', '$department', '$image_url', '$pdf_url')";
 
             if ($conn->query($sql) === TRUE) {
                 header("Location: " . $_SERVER['PHP_SELF']);
@@ -96,25 +96,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Book Management</title>
 </head>
 <body>
-<nav class="header">
-    <h1>Book Management</h1>
-
-    <!-- Container to keep notification and header-right together -->
-    <div class="header-actions">
-        <button id="notificationButton" class="notification-btn">
-            <i class='bx bx-bell'></i>
-        </button>
-        <div class="header-right">
-            <?php echo date('l, F j, Y g:i A'); ?>
-        </div>
-    </div>
-</nav>
 <div class="container" id="container5">
     <div class="search-sort">
-        <button id="openFormButton" class="add-btn">+ ADD BOOK</button>
+        <h1>Book Management</h1>
         <input type="text" id="search" placeholder="Search..." >
         <select id="bookmanagementFilter" class="filter-attendance">
-            <option value="">All categorys</option>
+            <option value="">All Departments</option>
             <option value="CITE">CITE</option>
             <option value="CMA">CMA</option>
             <option value="CEA">CEA</option>
@@ -124,53 +111,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="CAHS">CAHS</option>
         </select>
     </div>
-    
+    <button id="openFormButton" class="add-btn">+ ADD BOOK</button>
 
     <div id="addBookForm" class="addbookform-container">
         <h1>Add Book</h1>
         <form action="" method="POST" class="modal-content" id="bookForm" enctype="multipart/form-data">
             <input type="text" name="title" id="title" placeholder="Book Title" required>
             <input type="text" name="author" id="author" placeholder="Author" required>
-            <input type="number" name="book_code" placeholder="Book Code" required>
+            <input type="number" name="isbn" placeholder="Book Code" required>
             <input type="number" name="copies_available" placeholder="Available Copies" required>
             <input type="number" name="total_copies" placeholder="Total Copies" required>
-            <select name="category" required>
-                <option value="" disabled selected>Select Category</option>
-                <optgroup label="CAHS">
-                    <option value="Medicine">Medicine</option>
-                    <option value="Psychology">Psychology</option>
-                    <option value="Anatomy">Anatomy</option>
-                </optgroup>
-                <optgroup label="CCJE">
-                    <option value="Crime">Crime</option>
-                    <option value="Law">Law</option>
-                    <option value="Murder">Murder</option>
-                </optgroup>
-                <optgroup label="CEA">
-                    <option value="Architecture">Architecture</option>
-                    <option value="Physics">Physics</option>
-                    <option value="Engineering">Engineering</option>
-                </optgroup>
-                <optgroup label="CELA">
-                    <option value="Politics">Politics</option>
-                    <option value="Dictionary">Dictionary</option>
-                    <option value="Education">Education</option>
-                </optgroup>
-                <optgroup label="CITE">
-                    <option value="Technology">Technology</option>
-                    <option value="Databases">Databases</option>
-                    <option value="Internet">Internet</option>
-                </optgroup>
-                <optgroup label="CMA">
-                    <option value="Entrepreneurship">Entrepreneurship</option>
-                    <option value="Business">Business</option>
-                    <option value="Management">Management</option>
-                </optgroup>
-                <optgroup label="ETC">
-                    <option value="Action">Action</option>
-                    <option value="Fiction">Fiction</option>
-                    <option value="Biographies">Biographies</option>
-                </optgroup>
+            <select name="department" required>
+                <option value="" disabled selected>Select Genre</option>
+                <option value="CITE">CITE</option>
+                <option value="CMA">CMA</option>
+                <option value="CEA">CEA</option>
+                <option value="CAS">CAS</option>
+                <option value="CELA">CELA</option>
+                <option value="CCJE">CCJE</option>
+                <option value="CAHS">CAHS</option>
             </select>
                 <div class="input_bookcover">
                     <input type="file" name="book_cover" id="book_cover" accept="image/*" required>
@@ -202,47 +161,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input type="hidden" name="current_pdf_url" id="currentPdfUrl">
     <input type="text" name="title" id="editTitle" placeholder="Book Title" required>
     <input type="text" name="author" id="editAuthor" placeholder="Author" required>
-    <input type="number" name="book_code" id="editbook_code" placeholder="Book Code" required>
+    <input type="number" name="isbn" id="editIsbn" placeholder="Book Code" required>
     <input type="number" name="copies_available" id="editCopiesAvailable" placeholder="Available Copies" required>
     <input type="number" name="total_copies" id="editTotalCopies" placeholder="Total Copies" required>
-    <select name="category" id="editCategory" required>
-    <option value="" disabled selected>Select Category</option>
-    <optgroup label="CAHS">
-        <option value="Medicine">Medicine</option>
-        <option value="Psychology">Psychology</option>
-        <option value="Anatomy">Anatomy</option>
-    </optgroup>
-    <optgroup label="CCJE">
-        <option value="Crime">Crime</option>
-        <option value="Law">Law</option>
-        <option value="Murder">Murder</option>
-    </optgroup>
-    <optgroup label="CEA">
-        <option value="Architecture">Architecture</option>
-        <option value="Physics">Physics</option>
-        <option value="Engineering">Engineering</option>
-    </optgroup>
-    <optgroup label="CELA">
-        <option value="Politics">Politics</option>
-        <option value="Dictionary">Dictionary</option>
-        <option value="Education">Education</option>
-    </optgroup>
-    <optgroup label="CITE">
-        <option value="Technology">Technology</option>
-        <option value="Databases">Databases</option>
-        <option value="Internet">Internet</option>
-    </optgroup>
-    <optgroup label="CMA">
-        <option value="Entrepreneurship">Entrepreneurship</option>
-        <option value="Business">Business</option>
-        <option value="Management">Management</option>
-    </optgroup>
-    <optgroup label="ETC">
-        <option value="Action">Action</option>
-        <option value="Fiction">Fiction</option>
-        <option value="Biographies">Biographies</option>
-    </optgroup>
-</select>
+    <select name="department" id="editDepartment" required>
+        <option value="" disabled selected>Select Genre</option>
+        <option value="CITE">CITE</option>
+        <option value="CMA">CMA</option>
+        <option value="CEA">CEA</option>
+        <option value="CAS">CAS</option>
+        <option value="CELA">CELA</option>
+        <option value="CCJE">CCJE</option>
+        <option value="CAHS">CAHS</option>
+    </select>
     
 
     
@@ -285,10 +216,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <th>Book Cover</th>
                     <th data-column="title">Title<i class='bx bx-sort sort-icon'></i></th>
                     <th data-column="author">Author<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column="book_code">Book Code<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column="isbn">Book Code<i class='bx bx-sort sort-icon'></i></th>
                     <th data-column="copies_available">Available Copies<i class='bx bx-sort sort-icon'></i></th>
                     <th data-column="total_copies">Total Copies<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column="category">Category</th>
+                    <th data-column="department">Genre</th>
                     <th>Book PDF</th>
                     <th>Actions</th>
                 </tr>
@@ -302,10 +233,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <td><img src='{$row['image_url']}' alt='{$row['title']}' class='book-cover'></td>
                                 <td>{$row['title']}</td>
                                 <td>{$row['author']}</td>
-                                <td>{$row['book_code']}</td>
+                                <td>{$row['isbn']}</td>
                                 <td>{$row['copies_available']}</td>
                                 <td>{$row['total_copies']}</td>
-                                <td>{$row['category']}</td>
+                                <td>{$row['department']}</td>
                                 <td><a href='{$row['pdf_url']}' target='_blank'>View PDF</a></td>
                                 <td>
                                     <div class='action-buttons'>
@@ -348,10 +279,10 @@ function editBook(bookId) {
             document.getElementById('editBookId').value = data.book_id;
             document.getElementById('editTitle').value = data.title;
             document.getElementById('editAuthor').value = data.author;
-            document.getElementById('editbook_code').value = data.book_code;
+            document.getElementById('editIsbn').value = data.isbn;
             document.getElementById('editCopiesAvailable').value = data.copies_available;
             document.getElementById('editTotalCopies').value = data.total_copies;
-            document.getElementById('editCategory').value = data.category;
+            document.getElementById('editDepartment').value = data.department;
 
             // Set the current image and PDF URLs
             document.getElementById('currentImageUrl').value = data.image_url;
@@ -361,8 +292,6 @@ function editBook(bookId) {
 
             document.getElementById('editBookContainer').classList.add('active');
             document.querySelector('.container').classList.add('shifted');
-            document.querySelector('.header-actions').classList.add('shifted');
-            
         });
 }
 
@@ -379,9 +308,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const tableHeaders = document.querySelectorAll('th[data-column]');
     const closeEditFormButton = document.getElementById('closeEditFormButton');
     const bookCovers = document.querySelectorAll('.book-cover');
-    const headerActions = document.querySelector('.header-actions');
-
-    
 
     bookCovers.forEach(cover => {
     cover.addEventListener('click', () => {
@@ -398,8 +324,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     openFormButton.addEventListener('click', function() {
         addBookForm.classList.add('active');
-        container.classList.add('shifted');
-        headerActions.classList.add('shifted');
+        container.classList.add('shifted'); 
     });
 
     function closeEditForm() {
@@ -410,23 +335,20 @@ document.addEventListener('DOMContentLoaded', function() {
     closeFormButton.addEventListener('click', function() {
         addBookForm.classList.remove('active');
         container.classList.remove('shifted');
-        headerActions.classList.remove('shifted');
     });
 
     closeEditFormButton.addEventListener('click', function() {
         closeEditForm();
     });
-    
+
     document.addEventListener('click', function(event) {
         if (!addBookForm.contains(event.target) && !openFormButton.contains(event.target)) {
             addBookForm.classList.remove('active');
             container.classList.remove('shifted');
-            headerActions.classList.remove('shifted');
         }
         if (!editBookContainer.contains(event.target) && !event.target.classList.contains('edit-btn')) {
             editBookContainer.classList.remove('active');
             container_id.classList.remove('shifted');
-            headerActions.classList.remove('shifted');
         }
     });
 
@@ -437,10 +359,10 @@ document.addEventListener('DOMContentLoaded', function() {
         Array.from(rows).forEach(row => {
             const title = row.cells[1].textContent.toLowerCase();
             const author = row.cells[2].textContent.toLowerCase();
-            const book_code = row.cells[3].textContent.toLowerCase();
-            const category = row.cells[5].textContent.toLowerCase();
+            const isbn = row.cells[3].textContent.toLowerCase();
+            const department = row.cells[5].textContent.toLowerCase();
 
-            if (title.includes(filter) || author.includes(filter) || book_code.includes(filter) || category.includes(filter)) {
+            if (title.includes(filter) || author.includes(filter) || isbn.includes(filter) || department.includes(filter)) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
@@ -448,9 +370,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-
-
-    // This will make the input in to title case
     bookForm.addEventListener('submit', function(event) {
         const titleInput = document.getElementById('title');
         const authorInput = document.getElementById('author');
@@ -464,8 +383,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
     }
-
-    // Sort table
 
     tableHeaders.forEach(header => {
         header.addEventListener('click', function() {
@@ -496,17 +413,14 @@ document.addEventListener('DOMContentLoaded', function() {
         switch (column) {
             case 'title': return 2;
             case 'author': return 3;
-            case 'book_code': return 4;
+            case 'isbn': return 4;
             case 'copies_available': return 5;
             case 'total_copies': return 6;
-            case 'category': return 7;
+            case 'department': return 7;
             default: return 1;
         }
     }
 });
-
-
-
 </script>
 
 </body>

@@ -32,19 +32,10 @@ while ($row = $result->fetch_assoc()) {
     
 </head>
 <body>
-<nav class="header">
-    <h1>Dashboard</h1>
-
-    <!-- Container to keep notification and header-right together -->
-    <div class="header-actions">
-        <button id="notificationButton" class="notification-btn">
-            <i class='bx bx-bell'></i>
-        </button>
-        <div class="header-right">
-            <?php echo date('l, F j, Y g:i A'); ?>
-        </div>
-    </div>
-</nav>
+    <nav class="header">
+        <h1>Dashboard</h1>
+        <div class="header-right"><?php echo date('l, F j, Y g:i A'); ?></div>
+    </nav>
     <div class="dashboard-long-box">
         <h2>USER CREATED BY EACH DEPARTMENT</h2>
         <div class="department-boxes">
@@ -79,7 +70,7 @@ while ($row = $result->fetch_assoc()) {
                 </div>
             </div>
         </div>
-        <div class="dashboard-box"><h3>BORROWED BOOK</h3></div>
+        <div class="dashboard-box">BORROWED BOOK HISTORY</div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -11,9 +11,7 @@ try {
 
     if ($connect) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
             $data = json_decode(file_get_contents("php://input"), true);
-            
             $firstName = $data['firstName'];
             $lastName = $data['lastName'];
             $studentId = $data['studentId'];
@@ -22,44 +20,39 @@ try {
             $program = $data['program'];
             $schoolEmail = $data['schoolEmail'];
             $contactNumber = $data['contactNumber'];
-            $department = $data['department'];
 
-            // Check for duplicate student ID
-            $stmt_check = $connect->prepare("SELECT student_id FROM user WHERE student_id = ?");
-            $stmt_check->bind_param("s", $studentId);
-            $stmt_check->execute();
-            $result_check = $stmt_check->get_result();
+            $stmt = $connect->prepare("INSERT INTO user (
+                first_name, last_name, student_id, password, year_level, department, phinmaed_email, contact_number) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssssss", $firstName, $lastName, $studentId, $password, $yearLevel, $program, $schoolEmail, $contactNumber);
 
-            if ($result_check->num_rows > 0) {
-                http_response_code(409); // Conflict (duplicate)
-                $response = array("status" => "error", "message" => "Student ID already exists");
+            if ($stmt->execute()) {
+                $response = array("status" => "User inserted successfully");
+                echo json_encode($response);
             } else {
-                $stmt = $connect->prepare("INSERT INTO user (first_name, last_name, student_id, password, year_level, program, phinmaed_email, contact_number, department) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("sssssssss", $firstName, $lastName, $studentId, $password, $yearLevel, $program, $schoolEmail, $contactNumber, $department);
-
-                if ($stmt->execute()) {
-                    $response = array("status" => "success");
-                } else {
-                    http_response_code(500);
-                    $error_message = $stmt->error;
-                    $response = array("status" => "error", "message" => "Database error: " . $error_message);
-                }
-                $stmt->close();
+                http_response_code(500);
+                $error_message = $stmt->error;
+                $response = array("status" => "error", "message" => "Database insertion failed: " . $error_message);
+                echo json_encode($response);
             }
-            $stmt_check->close();
+
+            $stmt->close();
         } else {
-            http_response_code(400);
+            http_response_code(400); // Bad Request
             $response = array("status" => "error", "message" => "Invalid request method");
+            echo json_encode($response);
         }
     } else {
         http_response_code(500);
         $response = array("status" => "error", "message" => "Database connection failed");
+        echo json_encode($response);
     }
+
 } catch (Exception $e) {
     http_response_code(500);
     $response = array("status" => "error", "message" => "An error occurred: " . $e->getMessage());
-} finally {
     echo json_encode($response);
-    mysqli_close($connect);
 }
+
+mysqli_close($connect);
 ?>

@@ -23,7 +23,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ECECEC;
+    background-color: #fff;
 }
 
 .login-container {
@@ -35,23 +35,17 @@ body {
     width: 100%;
     max-width: 400px;
     opacity: 1;
-    justify-content: center;
 }
 
 h3 {
     margin-bottom: 20px;
-    color: #4caf50; /* Dark green for title */
+    color: #005500; /* Dark green for title */
     font-size: 24px;
 }
 
 .form-group {
     margin-bottom: 20px;
     text-align: left;
-    text-align: center
-}
-.Username, .Password{
-    text-align: left;
-   
 }
 
 label {
@@ -77,22 +71,20 @@ input[type="password"] {
 }
 
 input:focus {
-    border-color: #4caf50; /* Green border on focus */
+    border-color: #007700; /* Green border on focus */
     outline: none;
 }
 
 .btn {
-    background-color: #4caf50; /* Green */
+    background-color: #007700;
     color: #fff;
     font-size: 16px;
     padding: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 60%;
+    width: 100%;
 }
-
-
 
 .btn:hover {
     background-color: #005500; /* Darker green on hover */
@@ -141,14 +133,10 @@ input:focus {
 a {
     color: #000000;
     text-decoration: none;
-    float: center;
-    padding-top: 20px;
+    float: right;
+    padding-top: 10px;
     padding-bottom: 10px;
     font-weight: normal;
-    margin-top: 10px;
-}
-.forgot_password{
-    margin-top: 10px;
 }
 
 

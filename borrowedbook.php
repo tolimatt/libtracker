@@ -11,28 +11,18 @@
     <title>Borrowed Book Management</title>
 </head>
 <body>
-<nav class="header">
-    <h1>Borrowed Book</h1>
 
-    <!-- Container to keep notification and header-right together -->
-    <div class="header-actions">
-        <button id="notificationButton" class="notification-btn">
-            <i class='bx bx-bell'></i>
-        </button>
-        <div class="header-right">
-            <?php echo date('l, F j, Y g:i A'); ?>
-        </div>
-    </div>
-</nav>
 <div class="container3">
-    
     <div class="search-sort">
+        <h1>Borrowed Book</h1>
         <input type="text" id="search3" placeholder="Search...">
         <select id="statusFilter" class="filter-attendance">
             <option value="">All Status</option>
-            <option value="Borrowed">Borrowed</option>
+            <option value="Pending">Pending</option>
             <option value="Returned">Returned</option>
+            <option value="Renewed">Renewed</option>
         </select>
+        
     </div>
 
     <div class="table-container4">
@@ -40,40 +30,40 @@
             <thead>
                 <tr>
                     <th data-column1="transaction_id" data-order="asc">Transaction ID<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column1="title" data-order="asc">Book Title<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column1="student_id" data-order="asc">Student ID<i class='bx bx-sort sort-icon'></i></th>
+      
                     <th data-column1="last_name" data-order="asc">Last Name<i class='bx bx-sort sort-icon'></i></th>
                     <th data-column1="first_name" data-order="asc">First Name<i class='bx bx-sort sort-icon'></i></th>
                     <th data-column1="borrowed_date" data-order="asc">Borrowed Date<i class='bx bx-sort sort-icon'></i></th>
-                    <th data-column1="status" data-order="asc">Status<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column1="return_date" data-order="asc">Return Date<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column1="return_status" data-order="asc">Return Status<i class='bx bx-sort sort-icon'></i></th>
+                    <th data-column1="renewal_status" data-order="asc">Renewal Status<i class='bx bx-sort sort-icon'></i></th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="borrowedBookTableBody">
                 <?php
-                $query = "SELECT borrow.transaction_id, borrow.title, user.student_id, user.last_name, user.first_name, 
-                                 borrow.borrowed_date, borrow.status
-                          FROM borrow
-                          INNER JOIN user ON borrow.student_id = user.student_id
-                          ORDER BY borrow.borrowed_date DESC";
+                $query = "SELECT borrowed_books.transaction_id, user.last_name, user.first_name, 
+                                 borrowed_books.borrowed_date, borrowed_books.return_date, borrowed_books.return_status, borrowed_books.renewal_status 
+                          FROM borrowed_books 
+                          INNER JOIN user ON borrowed_books.user_id = user.user_id 
+                          ORDER BY borrowed_books.borrowed_date DESC";
 
                 $result = $conn->query($query);
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $disabled = ($row['status'] === 'Returned') ? 'disabled' : '';
                         echo "<tr>
                                 <td>{$row['transaction_id']}</td>
-                                <td>{$row['title']}</td>
-                                <td>{$row['student_id']}</td>
                                 <td>{$row['last_name']}</td>
                                 <td>{$row['first_name']}</td>
                                 <td>{$row['borrowed_date']}</td>
-                                <td>{$row['status']}</td>
+                                <td>{$row['return_date']}</td>
+                                <td>{$row['return_status']}</td>
+                                <td>{$row['renewal_status']}</td>
                                 <td>
                                 <div class='actions_button'>
-                                    <button class='return-btn' data-transaction-id='{$row['transaction_id']}' {$disabled}>Return</button>
-
+                                    <button class='return-btn' data-id='{$row['transaction_id']}'>Return</button>
+                                    <button class='renew-btn' data-id='{$row['transaction_id']}'>Renew</button>
                                 </div>
                                 </td>
                               </tr>";
@@ -88,6 +78,7 @@
 </div>
 
 <script>
+
 document.addEventListener('DOMContentLoaded', function() {
     const borrowedBook_tableHeaders = document.querySelectorAll('th[data-column1]');
     const borrowedBook_tableBody = document.getElementById('borrowedBookTableBody');
@@ -102,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             borrowedBook_sortTable(column, order);
         });
-    });
+    
 
     function borrowedBook_sortTable(column, order) {
         const rows = Array.from(borrowedBook_tableBody.querySelectorAll('tr'));
@@ -125,29 +116,29 @@ document.addEventListener('DOMContentLoaded', function() {
     function borrowedBook_getColumnIndex(column) {
         const columnOrder = {
             'transaction_id': 0,
-            'title': 1,
-            'student_id': 2,
-            'last_name': 3,
-            'first_name': 4,
-            'borrowed_date': 5,
-            'status': 6
+            'last_name': 1,
+            'first_name': 2,
+            'borrowed_date': 3,
+            'return_date': 4,
+            'return_status': 5,
+            'renewal_status': 6
         };
         return columnOrder[column];
     }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+
     document.querySelectorAll('.return-btn').forEach(button => {
         button.addEventListener('click', function() {
-            const transactionId = this.getAttribute('data-transaction-id');
+            const transactionId = this.getAttribute('data-id');
             updateStatus(transactionId, 'return');
         });
     });
 
-    document.querySelectorAll('.set-returned-btn').forEach(button => {
+    document.querySelectorAll('.renew-btn').forEach(button => {
         button.addEventListener('click', function() {
-            const transactionId = this.getAttribute('data-transaction-id');
-            updateStatus(transactionId, 'set_returned');
+            const transactionId = this.getAttribute('data-id');
+            updateStatus(transactionId, 'renew');
         });
     });
 
@@ -161,53 +152,49 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log("Response from server:", data); // Debugging line
-
             if (data.success) {
-                const row = document.querySelector(`button[data-transaction-id='${transactionId}']`).closest('tr');
-                if (action === 'return' || action === 'set_returned') {
-                    row.cells[6].textContent = 'Returned';
-                    row.querySelectorAll('button').forEach(btn => btn.disabled = true);
-                }
+                alert('Status updated successfully!');
+                location.reload(); // Reload the page to reflect changes
             } else {
                 alert('Error updating status: ' + data.message);
             }
         })
         .catch(error => {
-            console.error('Fetch error:', error);
+            console.error('Error:', error);
         });
     }
+
+    function filterTable() {
+        const searchInput = document.getElementById('search3');
+        const statusFilter = document.getElementById('statusFilter');
+        const filter = searchInput.value.toLowerCase();
+        const status = statusFilter.value.toLowerCase();
+        const rows = document.getElementById('borrowedBookTableBody').getElementsByTagName('tr');
+
+        Array.from(rows).forEach(row => {
+            const transaction_id = row.cells[0].textContent.toLowerCase();
+            const last_name = row.cells[1].textContent.toLowerCase();
+            const first_name = row.cells[2].textContent.toLowerCase();
+            const borrowed_date = row.cells[3].textContent.toLowerCase();
+            const return_date = row.cells[4].textContent.toLowerCase();
+            const return_status = row.cells[5].textContent.toLowerCase();
+            const renewal_status = row.cells[6].textContent.toLowerCase();
+
+            const matchesSearch = transaction_id.includes(filter) || last_name.includes(filter) || first_name.includes(filter) || borrowed_date.includes(filter) || return_date.includes(filter);
+            const matchesStatus = status === "" || return_status === status || renewal_status === status;
+
+            if (matchesSearch && matchesStatus) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    document.getElementById('search3').addEventListener('input', filterTable);
+    document.getElementById('statusFilter').addEventListener('change', filterTable);
 });
 
-function filterTable() {
-    const searchInput = document.getElementById('search3');
-    const statusFilter = document.getElementById('statusFilter');
-    const filter = searchInput.value.toLowerCase();
-    const status = statusFilter.value.toLowerCase();
-    const rows = document.getElementById('borrowedBookTableBody').getElementsByTagName('tr');
-
-    Array.from(rows).forEach(row => {
-        const transaction_id = row.cells[0].textContent.toLowerCase();
-        const title = row.cells[1].textContent.toLowerCase();
-        const student_id = row.cells[2].textContent.toLowerCase();
-        const last_name = row.cells[3].textContent.toLowerCase();
-        const first_name = row.cells[4].textContent.toLowerCase();
-        const borrowed_date = row.cells[5].textContent.toLowerCase();
-        const status_text = row.cells[6].textContent.toLowerCase();
-
-        const matchesSearch = transaction_id.includes(filter) || title.includes(filter) || student_id.includes(filter) || last_name.includes(filter) || first_name.includes(filter) || borrowed_date.includes(filter);
-        const matchesStatus = status === "" || status_text === status;
-
-        if (matchesSearch && matchesStatus) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-}
-
-document.getElementById('search3').addEventListener('input', filterTable);
-document.getElementById('statusFilter').addEventListener('change', filterTable);
 </script>
 
 </body>

@@ -11,8 +11,7 @@
     background-color: aqua;
     width: 100px;
 }
-
-button:disabled {
-    background-color: grey;
-    cursor: not-allowed;
+.renew-btn {
+    background-color: aqua;
+    width: 100px;
 }

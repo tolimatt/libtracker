@@ -2,7 +2,6 @@
 /* Navigation Styles */
 .header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     width: 100%;
 }
@@ -13,15 +12,18 @@
 
 
 .header-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #83b48a;
     color: white;
-    padding: 0.625rem;
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
-    border-radius: 0.625rem;
-    
+    margin: 0.0625rem; /* 1px */
+    padding: 0.625rem; /* 10px */
+    border-radius: 0.625rem; /* 10px */
+    box-shadow: 0rem 0.25rem 0.625rem rgba(26, 24, 24, 0.1); /* 0px 4px 10px */
+    width: 30%;
+    height: 50px; /* Adjust width for two boxes side by side */
 }
-
 
 /* Dashboard Styles */
 .dashboard-row {

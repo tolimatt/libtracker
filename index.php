@@ -46,20 +46,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="POST" action="">
                     <div class="form-group">
                         <label class="instruction">Please fill in your unique admin login details below</label><br>
-                        <label for="username" class="Username">Username</label>
+                        <label for="username">Username</label>
                         <input type="text" id="username" name="username" required>
                     </div>
                     <div class="form-group">
-                        <label for="password" class="Password">Password</label>
+                        <label for="password">Password</label>
                         <input type="password" id="password" name="password" required>  
                         <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
-                        
-                    </div>
-                    <button type="submit" class="btn">Sign In</button>
-                    <div class="forgot_password">
                         <a href="forgot_password.php">Forgot password?</a>
                     </div>
-                    
+                    <button type="submit" class="btn">Sign In</button>
                 </form>
             </div>
         </div>
